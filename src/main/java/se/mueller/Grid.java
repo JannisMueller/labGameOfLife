@@ -4,37 +4,26 @@ public class Grid {
 
     private int rowsOfGrid;
     private int columnsOfGrid;
+    int[][] grid;
 
-    public Grid(int rowsOfGrid, int columnsOfGrid) {
-        this.rowsOfGrid = rowsOfGrid;
-        this.columnsOfGrid = columnsOfGrid;
+    public Grid() {
+        this.rowsOfGrid = 10;
+        this.columnsOfGrid = 10;
+        this.grid = new int[rowsOfGrid][columnsOfGrid];
+
     }
 
-    public int[][] initializeGrid (){
-
-        int[][] grid = {
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }
-        };
-
+    public int[][] initializeGrid() {
+        for (int i = 0; i < grid.length; i++) {
+            for (int y = 0; y < grid[i].length; y++) {
+                grid[i][y] = i * y;
+            }
+        }
         return grid;
     }
 
-
-    public int getRowsOfGrid() {
-        return rowsOfGrid;
-    }
-
-    public int getColumnsOfGrid() {
-        return columnsOfGrid;
+    public int[][] getGrid() {
+        return grid;
     }
 }
 
