@@ -1,6 +1,8 @@
-**<u>Game of life - TDD</u>**
+# **<u>Game of life - TDD</u>**
 
-**Assignment**
+
+
+#### **Assignment**
 
 Implement the following program using TDD. Your final project should have passing tests and
 
@@ -16,10 +18,13 @@ dead. In this version of the problem, the grid is finite, and no life can exist 
 
 edges. 
 
+
+
 When calculating the next generation of the grid, follow these rules:
 
 
 
+```
 1. Any live cell with fewer than two live neighbors dies, as if caused by
 
 underpopulation.
@@ -33,6 +38,7 @@ overcrowding.
 generation.
 
 4. Any dead cell with exactly three live neighbors becomes a live cell.
+```
 
 
 
