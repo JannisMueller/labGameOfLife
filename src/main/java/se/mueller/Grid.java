@@ -1,29 +1,40 @@
 package se.mueller;
 
+import java.util.Arrays;
+
 public class Grid {
 
-    private int rowsOfGrid = 10;
-    private int columnsOfGrid = 10;
-    int[][] grid;
-
+    private final int rowsOfGrid = 10;
+    private final int columnsOfGrid = 10;
+    private int[][] grid;
+    public final static int CELL_IS_DEAD = 0;
+    public final static int CELL_IS_ALIVE = 1;
 
     public Grid() {
         this.grid = new int[rowsOfGrid][columnsOfGrid];
     }
 
-    public int[][] initializeGrid() {
-        for (int i = 0; i < grid.length; i++) {
-            for (int y = 0; y < grid[i].length; y++) {
-                System.out.print("0");
-            }
-            System.out.println();
+    public void initializeGridWithDeadCellsOnly() {
+            for (int y = 0; y < rowsOfGrid; y++) {
+                Arrays.fill(grid[y],CELL_IS_DEAD);
         }
-        return grid;
     }
 
     public int[][] getGrid() {
         return grid;
     }
+
+    public int sum(){
+         int sum = Arrays.stream(grid)
+                 .flatMapToInt(Arrays::stream)
+                 .sum();
+         return sum;
+    }
+
+    public void printArray(){
+        System.out.println(Arrays.deepToString(grid));
+    }
+
 }
 
 
