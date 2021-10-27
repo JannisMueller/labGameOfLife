@@ -1,6 +1,8 @@
 package se.mueller;
 
 import java.util.Arrays;
+import java.util.OptionalInt;
+import java.util.stream.IntStream;
 
 public class Grid {
 
@@ -31,8 +33,26 @@ public class Grid {
          return sum;
     }
 
+    public int[] findIndex() {
+        int [] index;
+
+        for (int i = 0; i < rowsOfGrid; i++)
+            for (int j = 0; j < columnsOfGrid; j++) {
+                if (grid[i][j] == 1) {
+                    return index = new int[]{i, j};
+                }
+            }
+        return new int[]{-1,-1};
+    }
+
+
+
     public void printArray(){
         System.out.println(Arrays.deepToString(grid));
+    }
+
+    public void changeCellStautsToAlive(int row, int column) {
+        grid[row][column] = CELL_IS_ALIVE;
     }
 
 }
