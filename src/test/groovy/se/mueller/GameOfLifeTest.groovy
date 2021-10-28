@@ -3,6 +3,8 @@ package se.mueller
 import spock.lang.Specification
 
 class GameOfLifeTest extends Specification {
+
+
     def "Test if grid is initialized and has the expected length"() {
         when:
         Grid grid = new Grid()
@@ -33,14 +35,25 @@ class GameOfLifeTest extends Specification {
         Grid grid = new Grid()
         grid.initializeGridWithDeadCellsOnly()
         when:
-        grid.changeCellStautsToAlive(activatedCells)
+        grid.changeCellStatusToAlive(activatedCells)
         then:
-        grid.findIndex() == expectedIndex
+        grid.findIndex(1) == expectedIndexAfterActivation
         where:
-        activatedCells || expectedIndex
+        activatedCells || expectedIndexAfterActivation
         [1,1]          || [1,1]
         [2,5]          || [2,5]
         [9,9]          || [9,9]
     }
 
+    def "Test if user input saves correctly in object and set cells correctly to alive"() {
+        given:
+        Grid grid = new Grid()
+        grid.initializeGridWithDeadCellsOnly()
+        UserInput input = new UserInput(2,5);
+        when:
+        grid.changeCellStatusToAlive(input.getIndexOfRow(), input.getIndexOfColumn());
+        then:
+        grid.findIndex(1) == [2,5]
+
+    }
 }
