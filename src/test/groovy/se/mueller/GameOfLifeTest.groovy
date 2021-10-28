@@ -43,7 +43,7 @@ class GameOfLifeTest extends Specification {
         [9,9]          || [[9,9]]
     }
 
-    def "Test if user input saves correctly in object, sets cells correctly to alive and that all alive that are alive can be found"() {
+    def "Test to ensure that all activated cells are correctly identified"() {
         when:
         Grid grid = new Grid()
         for(int i = 0; i<3;i++) {

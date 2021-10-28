@@ -7,18 +7,20 @@ import java.util.List;
 
 public class Grid {
 
-    private final int rowsOfGrid = 10;
-    private final int columnsOfGrid = 10;
+    private static final int ROWS_GRID = 10;
+    private static final int COLUMNS_GRID = 10;
+
     private int[][] grid;
-    public final static int CELL_IS_DEAD = 0;
-    public final static int CELL_IS_ALIVE = 1;
+
+    public static final int CELL_IS_DEAD = 0;
+    public static final int CELL_IS_ALIVE = 1;
 
     public Grid() {
         this.grid = initializeGridWithDeadCellsOnly();
     }
 
     public int[][] initializeGridWithDeadCellsOnly() {
-            return new int [rowsOfGrid][columnsOfGrid];
+            return new int [ROWS_GRID][COLUMNS_GRID];
     }
 
     public int[][] getGrid() {
@@ -32,19 +34,16 @@ public class Grid {
          return sum;
     }
 
-
-    List<int[]>findAllIndexOfCellsThatAreAlive() {
+    public List<int[]>findAllIndexOfCellsThatAreAlive() {
         List<int[]> listOfIndex = new ArrayList<>();
-        for (int i = 0; i < rowsOfGrid; i++)
-            for (int j = 0; j < columnsOfGrid; j++) {
+        for (int i = 0; i < ROWS_GRID; i++)
+            for (int j = 0; j < COLUMNS_GRID; j++) {
                 if (grid[i][j] == 1) {
                     listOfIndex.add(new int[]{i, j});
                 }
             }
         return listOfIndex;
     }
-
-
 
     public void printArray(){
         for(int[] rows : grid){
