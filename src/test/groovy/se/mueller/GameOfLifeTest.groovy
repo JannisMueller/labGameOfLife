@@ -5,10 +5,11 @@ import spock.lang.Specification
 class GameOfLifeTest extends Specification {
 
 
+
+
     def "Test if grid is initialized and has the expected length"() {
         when:
         Grid grid = new Grid()
-        grid.initializeGridWithDeadCellsOnly()
         then:
         grid.getGrid().length == 10
     }
@@ -25,35 +26,36 @@ class GameOfLifeTest extends Specification {
     def "The first grid is just filled with Dead cells (with value 0 before some cells are set to Life by the user"() {
         when:
         Grid grid = new Grid()
-        grid.initializeGridWithDeadCellsOnly()
         then:
         grid.sum()== 0;
     }
 
     def "User input sets cells correctly to alive in Grid"(){
-        given:
-        Grid grid = new Grid()
-        grid.initializeGridWithDeadCellsOnly()
         when:
+        Grid grid = new Grid()
         grid.changeCellStatusToAlive(activatedCells)
         then:
-        grid.findIndex(1) == expectedIndexAfterActivation
+        grid.findAllIndexOfCellsThatAreAlive() == expectedIndexAfterActivation
         where:
         activatedCells || expectedIndexAfterActivation
-        [1,1]          || [1,1]
-        [2,5]          || [2,5]
-        [9,9]          || [9,9]
+        [1,1]          || [[1,1]]
+        [2,5]          || [[2,5]]
+        [9,9]          || [[9,9]]
     }
 
-    def "Test if user input saves correctly in object and set cells correctly to alive"() {
-        given:
-        Grid grid = new Grid()
-        grid.initializeGridWithDeadCellsOnly()
-        UserInput input = new UserInput(2,5);
+    def "Test if user input saves correctly in object, sets cells correctly to alive and that all alive that are alive can be found"() {
         when:
-        grid.changeCellStatusToAlive(input.getIndexOfRow(), input.getIndexOfColumn());
+        Grid grid = new Grid()
+        for(int i = 0; i<3;i++) {
+            UserInput userInput = new UserInput(i, i)
+            grid.changeCellStatusToAlive(userInput.getIndexOfRow(), userInput.getIndexOfColumn())
+        }
+        def listOfIndex = grid.findAllIndexOfCellsThatAreAlive()
         then:
-        grid.findIndex(1) == [2,5]
+        grid.sum() == 3
+        listOfIndex.size() == 3
+        listOfIndex == [[0, 0], [1, 1], [2, 2]]
 
     }
+
 }

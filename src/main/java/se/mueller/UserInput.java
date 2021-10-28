@@ -1,7 +1,5 @@
 package se.mueller;
-
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 class UserInput {
@@ -9,6 +7,8 @@ class UserInput {
     private int indexOfRow;
     private int indexOfColumn;
 
+    int inputIndexOfRowFromUser;
+    int inputIndexOfColumnFromUser;
 
     public UserInput(int indexOfRow, int indexOfColumn) {
         this.indexOfRow = indexOfRow;
@@ -19,16 +19,11 @@ class UserInput {
 
     }
 
-    public UserInput inputStream() {
-        UserInput input;
-        InputStream stream = System.in;
-        Scanner scanner = new Scanner(stream);
+    public UserInput inputStream(Scanner scanner) {
         System.out.println("Which cells are alive");
-        int inputIndexOfRowFromUser = scanner.nextInt();
-        int inputIndexOfColumnFromUser = scanner.nextInt();
-        scanner.close();
-        input = new UserInput(inputIndexOfRowFromUser, inputIndexOfColumnFromUser);
-        return input;
+        inputIndexOfRowFromUser = scanner.nextInt();
+        inputIndexOfColumnFromUser = scanner.nextInt();
+        return new UserInput(inputIndexOfRowFromUser,inputIndexOfColumnFromUser);
     }
 
     public int getIndexOfRow() {

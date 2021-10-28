@@ -1,6 +1,8 @@
 package se.mueller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class Grid {
@@ -12,13 +14,11 @@ public class Grid {
     public final static int CELL_IS_ALIVE = 1;
 
     public Grid() {
-        this.grid = new int[rowsOfGrid][columnsOfGrid];
+        this.grid = initializeGridWithDeadCellsOnly();
     }
 
-    public void initializeGridWithDeadCellsOnly() {
-            for (int y = 0; y < rowsOfGrid; y++) {
-                Arrays.fill(grid[y],CELL_IS_DEAD);
-        }
+    public int[][] initializeGridWithDeadCellsOnly() {
+            return new int [rowsOfGrid][columnsOfGrid];
     }
 
     public int[][] getGrid() {
@@ -32,20 +32,27 @@ public class Grid {
          return sum;
     }
 
-    public int[] findIndex(int target) {
+
+    List<int[]>findAllIndexOfCellsThatAreAlive() {
+        List<int[]> listOfIndex = new ArrayList<>();
         for (int i = 0; i < rowsOfGrid; i++)
             for (int j = 0; j < columnsOfGrid; j++) {
-                if (grid[i][j] == target) {
-                    return new int[]{i, j};
+                if (grid[i][j] == 1) {
+                    listOfIndex.add(new int[]{i, j});
                 }
             }
-        return new int[]{-1,-1};
+        return listOfIndex;
     }
 
 
 
     public void printArray(){
-        System.out.println(Arrays.deepToString(grid));
+        for(int[] rows : grid){
+            for (int row : rows) {
+                System.out.print(row);
+            }
+            System.out.println();
+        }
     }
 
     public void changeCellStatusToAlive(int row, int column) {
