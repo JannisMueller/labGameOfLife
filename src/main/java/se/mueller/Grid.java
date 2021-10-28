@@ -58,6 +58,12 @@ public class Grid {
         grid[row][column] = CELL_IS_ALIVE;
     }
 
+    @Override
+    public String toString() {
+        return "Grid{" +
+                "grid=" + Arrays.toString(grid) +
+                '}';
+    }
 }
 
 
