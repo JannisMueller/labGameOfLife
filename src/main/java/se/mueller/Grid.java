@@ -23,6 +23,7 @@ public class Grid {
             return new int [ROWS_GRID][COLUMNS_GRID];
     }
 
+
     public int[][] getGrid() {
         return grid;
     }
@@ -58,12 +59,37 @@ public class Grid {
         grid[row][column] = CELL_IS_ALIVE;
     }
 
-    @Override
-    public String toString() {
-        return "Grid{" +
-                "grid=" + Arrays.toString(grid) +
-                '}';
+    public List<Integer> findNeighbours(int row, int column) {
+
+        int overCell = row -1;
+        int underCell = row + 1;
+
+        int leftFromCell = column -1;
+        int rightFromCell = column +1;
+
+        return Arrays.asList(
+                getPositionOfCell(overCell,column),
+                getPositionOfCell(overCell,leftFromCell),
+                getPositionOfCell(overCell,rightFromCell),
+
+                getPositionOfCell(underCell,column),
+                getPositionOfCell(underCell,leftFromCell),
+                getPositionOfCell(underCell,rightFromCell),
+
+                getPositionOfCell(row,leftFromCell),
+                getPositionOfCell(row,rightFromCell)
+
+        );
+
     }
+
+    private int getPositionOfCell(int index, int index1) {
+        int position  = grid[index][index1];
+        return position;
+    }
+
+
+
 }
 
 

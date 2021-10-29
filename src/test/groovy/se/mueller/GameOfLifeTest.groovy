@@ -46,10 +46,7 @@ class GameOfLifeTest extends Specification {
     def "Test to ensure that all activated cells are correctly identified"() {
         when:
         Grid grid = new Grid()
-        for(int i = 0; i<3;i++) {
-            UserInput userInput = new UserInput(i, i)
-            grid.changeCellStatusToAlive(userInput.getIndexOfRow(), userInput.getIndexOfColumn())
-        }
+        setCellsAlive(grid, 3)
         def listOfIndex = grid.findAllIndexOfCellsThatAreAlive()
         then:
         grid.sum() == 3
@@ -57,5 +54,24 @@ class GameOfLifeTest extends Specification {
         listOfIndex == [[0, 0], [1, 1], [2, 2]]
 
     }
+
+
+
+    def "Identifying all possible neighbors of an activated cells"() {
+        when:
+        Grid grid = new Grid()
+        grid.changeCellStatusToAlive(1,1)
+        then:
+        grid.findNeighbours(5,5).size() == 8
+    }
+
+
+    private void setCellsAlive(Grid grid,int amountOfCellsToSetAlive) {
+        for (int i = 0; i < amountOfCellsToSetAlive; i++) {
+            UserInput userInput = new UserInput(i, i)
+            grid.changeCellStatusToAlive(userInput.getIndexOfRow(), userInput.getIndexOfColumn())
+        }
+    }
+
 
 }
