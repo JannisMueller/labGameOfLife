@@ -98,9 +98,8 @@ public class Grid {
         int[][] nextGeneration = new int[ROWS_GRID][COLUMNS_GRID];
         for (int i = 1; i < ROWS_GRID-1; i++)
             for (int j = 1; j < COLUMNS_GRID-1; j++) {
-                if(findNumberOfAliveNeighbours(i,j) == 0)
+                if(findNumberOfAliveNeighbours(i,j) == 0 ||findNumberOfAliveNeighbours(i,j) > 3 )
                     changeCellStatusToDead(i,j);
-
 
             }
 

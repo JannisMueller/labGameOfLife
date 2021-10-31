@@ -88,13 +88,29 @@ class GameOfLifeTest extends Specification {
         when:
         Grid grid = new Grid()
         grid.changeCellStatusToAlive(1,1)
+        grid.nextGeneration();
+
+        then:
+        grid.sum() == 0
+
+    }
+
+    def "Cell that have more than 3 neighbors gets killed"() {
+        when:
+        Grid grid = new Grid()
+        grid.changeCellStatusToAlive(1,1)
+        //Neighbors
+        grid.changeCellStatusToAlive(1,2)
+        grid.changeCellStatusToAlive(0,3)
+        grid.changeCellStatusToAlive(0,2)
+        grid.changeCellStatusToAlive(0,1)
         grid.printArray()
         println()
         grid.nextGeneration();
         grid.printArray()
 
         then:
-        grid.sum() == 0
+        grid.sum() == 4
 
     }
 }
