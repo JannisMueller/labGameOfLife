@@ -127,4 +127,24 @@ class GameOfLifeTest extends Specification {
         grid.sum() == 4
 
     }
+
+    def "Any live cell with two or three live neighbors lives on to the next generation"() {
+        when:
+        Grid grid = new Grid()
+        grid.changeCellStatusToAlive(1,2)
+        grid.changeCellStatusToAlive(0,3)
+        grid.changeCellStatusToAlive(0,2)
+        grid.changeCellStatusToAlive(0,1)
+
+
+        grid.printArray()
+        grid.nextGeneration()
+        grid.printArray()
+
+        then:
+        grid.sum() == 5
+
+    }
+
+
 }

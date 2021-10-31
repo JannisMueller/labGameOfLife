@@ -102,6 +102,7 @@ public class Grid {
                 if (grid[i][j] == 1) {
                     if (findNumberOfAliveNeighbours(i, j) == 0 || findNumberOfAliveNeighbours(i, j) > 3)
                         changeCellStatusToDead(i, j);
+                    nextGeneration[i][j] = grid[i][j];
 
                 } else {
                     if (findNumberOfAliveNeighbours(i, j) == 3) {
