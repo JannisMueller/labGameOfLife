@@ -78,7 +78,6 @@ public class Grid {
 
                 getPositionOfCell(row,leftFromCell),
                 getPositionOfCell(row,rightFromCell)
-
         );
 
     }
@@ -88,6 +87,9 @@ public class Grid {
         return position;
     }
 
+    public int findNumberOfAliveNeighbours(int row, int column) {
+        return (int) findNeighbours(row,column).stream().filter(x -> x == 1).count();
+    }
 
 
 }

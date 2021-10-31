@@ -73,5 +73,16 @@ class GameOfLifeTest extends Specification {
         }
     }
 
+    def "All alive neighbours are identified correctly"() {
+
+        when:
+        Grid grid = new Grid()
+        grid.changeCellStatusToAlive(1,1)
+        grid.changeCellStatusToAlive(1,2)
+
+        then:
+        grid.findNumberOfAliveNeighbours(1,1) == 1
+    }
+
 
 }
