@@ -84,7 +84,7 @@ class GameOfLifeTest extends Specification {
         grid.findNumberOfAliveNeighbours(1,1) == 1
     }
 
-    def "Cell that doesnt have neighbors gets killed"() {
+    def "Live cell that doesnt have neighbors gets killed"() {
         when:
         Grid grid = new Grid()
         grid.changeCellStatusToAlive(1,1)
@@ -95,7 +95,7 @@ class GameOfLifeTest extends Specification {
 
     }
 
-    def "Cell that have more than 3 neighbors gets killed"() {
+    def "Live cell that have more than 3 neighbors gets killed"() {
         when:
         Grid grid = new Grid()
         grid.changeCellStatusToAlive(1,1)
@@ -105,7 +105,21 @@ class GameOfLifeTest extends Specification {
         grid.changeCellStatusToAlive(0,2)
         grid.changeCellStatusToAlive(0,1)
         grid.printArray()
-        println()
+        grid.nextGeneration();
+        grid.printArray()
+        then:
+        grid.sum() == 4
+
+    }
+
+    def "Dead cells that have exactly 3 neighbors gets born"() {
+        when:
+        Grid grid = new Grid()
+        //Neighbors
+        grid.changeCellStatusToAlive(0,3)
+        grid.changeCellStatusToAlive(0,2)
+        grid.changeCellStatusToAlive(0,1)
+        grid.printArray()
         grid.nextGeneration();
         grid.printArray()
 

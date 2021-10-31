@@ -53,6 +53,7 @@ public class Grid {
             }
             System.out.println();
         }
+        System.out.println();
     }
 
     public void changeCellStatusToAlive(int row, int column) {
@@ -96,17 +97,25 @@ public class Grid {
 
     public int[][] nextGeneration () {
         int[][] nextGeneration = new int[ROWS_GRID][COLUMNS_GRID];
-        for (int i = 1; i < ROWS_GRID-1; i++)
-            for (int j = 1; j < COLUMNS_GRID-1; j++) {
-                if(findNumberOfAliveNeighbours(i,j) == 0 ||findNumberOfAliveNeighbours(i,j) > 3 )
-                    changeCellStatusToDead(i,j);
+        for (int i = 1; i < ROWS_GRID - 1; i++)
+            for (int j = 1; j < COLUMNS_GRID - 1; j++) {
+                if (grid[i][j] == 1) {
+                    if (findNumberOfAliveNeighbours(i, j) == 0 || findNumberOfAliveNeighbours(i, j) > 3)
+                        changeCellStatusToDead(i, j);
+
+                } else {
+                    if (findNumberOfAliveNeighbours(i, j) == 3) {
+                        changeCellStatusToAlive(i, j);
+                        i++;j++;
+                    }
+                }
+
+
 
             }
-
         return nextGeneration;
 
     }
-
 
 }
 
