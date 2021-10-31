@@ -58,6 +58,9 @@ public class Grid {
     public void changeCellStatusToAlive(int row, int column) {
         grid[row][column] = CELL_IS_ALIVE;
     }
+    public void changeCellStatusToDead(int row, int column) {
+        grid[row][column] = CELL_IS_DEAD;
+    }
 
     public List<Integer> findNeighbours(int row, int column) {
 
@@ -89,6 +92,20 @@ public class Grid {
 
     public int findNumberOfAliveNeighbours(int row, int column) {
         return (int) findNeighbours(row,column).stream().filter(x -> x == 1).count();
+    }
+
+    public int[][] nextGeneration () {
+        int[][] nextGeneration = new int[ROWS_GRID][COLUMNS_GRID];
+        for (int i = 1; i < ROWS_GRID-1; i++)
+            for (int j = 1; j < COLUMNS_GRID-1; j++) {
+                if(findNumberOfAliveNeighbours(i,j) == 0)
+                    changeCellStatusToDead(i,j);
+
+
+            }
+
+        return nextGeneration;
+
     }
 
 

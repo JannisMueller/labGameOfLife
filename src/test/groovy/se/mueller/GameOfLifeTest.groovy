@@ -84,5 +84,17 @@ class GameOfLifeTest extends Specification {
         grid.findNumberOfAliveNeighbours(1,1) == 1
     }
 
+    def "Cell that doesnt have neighbors gets killed"() {
+        when:
+        Grid grid = new Grid()
+        grid.changeCellStatusToAlive(1,1)
+        grid.printArray()
+        println()
+        grid.nextGeneration();
+        grid.printArray()
 
+        then:
+        grid.sum() == 0
+
+    }
 }
