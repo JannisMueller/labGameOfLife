@@ -29,10 +29,11 @@ public class Board {
         return new int[ROWS_GRID][COLUMNS_GRID];
     }
 
-    public void initializeGridRandom() {
+
+    public void initializeGridRandom(){
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[row].length; col++) {
-                if (rand.nextInt(6) == 5) {
+                if (rand.nextInt(2) == 1) {
                     grid[row][col] = CELL_IS_ALIVE;
                 }
             }
@@ -97,7 +98,10 @@ public class Board {
             for (int j = 0; j < COLUMNS_GRID; j++) {
                 int numberOfNeighbours = findNumberOfAliveNeighbours(new Position(i, j));
 
-                if ((grid[i][j] == CELL_IS_ALIVE) && (numberOfNeighbours < 2) || (grid[i][j] == CELL_IS_ALIVE) && (numberOfNeighbours > 3))
+                if (grid[i][j] == CELL_IS_ALIVE && numberOfNeighbours < 2)
+                    nextGeneration[i][j] = CELL_IS_DEAD;
+
+                else if (grid[i][j] == CELL_IS_ALIVE && numberOfNeighbours > 3)
                     nextGeneration[i][j] = CELL_IS_DEAD;
 
                 else if ((grid[i][j] == CELL_IS_ALIVE) && (numberOfNeighbours == 2 || numberOfNeighbours == 3))
