@@ -19,6 +19,10 @@ public class Grid {
         this.grid = initializeGridWithDeadCellsOnly();
     }
 
+    public Grid(int[][] grid) {
+        this.grid = grid;
+    }
+
     public int[][] initializeGridWithDeadCellsOnly() {
         return new int[ROWS_GRID][COLUMNS_GRID];
     }

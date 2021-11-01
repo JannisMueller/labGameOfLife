@@ -102,27 +102,31 @@ class GameOfLifeTest extends Specification {
         when:
         Grid grid = new Grid()
         grid.changeCellStatusToAlive(1,1)
-        grid.nextGeneration();
-
+        grid.printArray()
+        Grid nextGeneration = grid.nextGeneration()
+        nextGeneration.printArray()
         then:
-        grid.sumNext() == 0
+        nextGeneration.findNumberOfAliveNeighbours(1,2) == 0
+        nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 0
 
     }
 
     def "Live cell that have more than 3 neighbors gets killed"() {
         when:
-        Grid grid = new Grid()
+        Grid grid = new Grid().initializeGridWithDeadCellsOnly()
         grid.changeCellStatusToAlive(1,1)
-        //Neighbors
         grid.changeCellStatusToAlive(1,2)
         grid.changeCellStatusToAlive(0,3)
         grid.changeCellStatusToAlive(0,2)
         grid.changeCellStatusToAlive(0,1)
+
         grid.printArray()
-        grid.nextGeneration()
-        grid.printArrayNext()
+        Grid nextGeneration = grid.nextGeneration()
+        nextGeneration.printArray()
         then:
-        grid.sumNext() == 4
+        nextGeneration.findNumberOfAliveNeighbours(1,1) == 1
+        nextGeneration.findNumberOfAliveNeighbours(0,1) == 1
+        nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 4
 
     }
 
@@ -133,12 +137,13 @@ class GameOfLifeTest extends Specification {
         grid.changeCellStatusToAlive(0,3)
         grid.changeCellStatusToAlive(0,2)
         grid.changeCellStatusToAlive(0,1)
-
         grid.printArray()
-        grid.nextGeneration()
-        grid.printArrayNext()
+        Grid nextGeneration = grid.nextGeneration()
+        nextGeneration.printArray()
         then:
-        grid.sumNext() == 4
+        nextGeneration.findNumberOfAliveNeighbours(1,2) == 1
+        nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 2
+
 
     }
 
@@ -150,11 +155,13 @@ class GameOfLifeTest extends Specification {
         grid.changeCellStatusToAlive(1,4)
 
         grid.printArray()
-        grid.nextGeneration()
-        grid.printArrayNext()
-
+        Grid nextGeneration = grid.nextGeneration()
+        nextGeneration.printArray()
         then:
-        grid.sumNext() == 2
+        nextGeneration.findNumberOfAliveNeighbours(3,3) == 1
+        nextGeneration.findNumberOfAliveNeighbours(0,3) == 1
+        nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 3
+
 
     }
 

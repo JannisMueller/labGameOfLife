@@ -1,5 +1,6 @@
 package se.mueller;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 public class GameOfLife {
 
@@ -11,12 +12,15 @@ public class GameOfLife {
         Grid grid = new Grid();
         grid.printArray();
 
-        do {
-            UserInput input = inputStream(scanner);
+        UserInput input = inputStream(scanner);
+        grid.changeCellStatusToAlive(input.getIndexOfRow(), input.getIndexOfColumn());
+        inputSessionIsFinished = isInputSessionFinished(scanner, true);
+
+        while (inputSessionIsFinished) {
+            input = inputStream(scanner);
             grid.changeCellStatusToAlive(input.getIndexOfRow(), input.getIndexOfColumn());
             inputSessionIsFinished = isInputSessionFinished(scanner, true);
-
-        } while (inputSessionIsFinished);
+        }
 
         System.out.println(("How many generations do you want to see?"));
         int numberOfGenerationsToBeGenerated = scanner.nextInt();
@@ -26,23 +30,19 @@ public class GameOfLife {
     }
 
     private static void generationBuilder(int numberOfGenerationsToBeGenerated, Grid grid) {
-
-        for (int i = 0; i < numberOfGenerationsToBeGenerated ; i++) {
-            System.out.println(("--Generation " + i+1 + "--"));
-            grid.printArray();
+        grid.printArray();
+        IntStream.range(0, numberOfGenerationsToBeGenerated).forEach(i -> {
+            System.out.println(("--Generation " + (i + 1) + "--"));
             grid.nextGeneration();
             grid.printArrayNext();
-
-        }
+        });
     }
 
     private static boolean isInputSessionFinished(Scanner scanner, boolean inputSessionIsFinished) {
         System.out.println("Are you done? - Press y to quit or any other key to continue");
         String quitInputSession = scanner.next();
-        if (quitInputSession.equalsIgnoreCase("y")) {
+        if (quitInputSession.equalsIgnoreCase("y"))
             inputSessionIsFinished = false;
-
-        }
         return inputSessionIsFinished;
     }
 
