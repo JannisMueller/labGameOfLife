@@ -3,28 +3,40 @@ package se.mueller;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
-
-public class Grid {
+public class Board {
 
     private static final int ROWS_GRID = 10;
     private static final int COLUMNS_GRID = 10;
 
-    private int[][] grid;
+    private final int[][] grid;
 
     public static final int CELL_IS_DEAD = 0;
     public static final int CELL_IS_ALIVE = 1;
 
-    public Grid() {
+    Random rand = new Random();
+
+    public Board() {
         this.grid = initializeGridWithDeadCellsOnly();
     }
 
-    public Grid(int[][] grid) {
+    public Board(int[][] grid) {
         this.grid = grid;
     }
 
     public int[][] initializeGridWithDeadCellsOnly() {
         return new int[ROWS_GRID][COLUMNS_GRID];
+    }
+
+    public void initializeGridRandom() {
+        for (int row = 0; row < grid.length; row++) {
+            for (int col = 0; col < grid[row].length; col++) {
+                if (rand.nextInt(6) == 5) {
+                    grid[row][col] = CELL_IS_ALIVE;
+                }
+            }
+        }
     }
 
     public int[][] getGrid() {
@@ -69,11 +81,9 @@ public class Grid {
     }
 
     private int getPositionOfCell(Position position) {
-        if(isInTheGrid(new Position(position.row(), position.column()))) {
-            int positionOfCell = grid[position.row()][position.column()];
-            return positionOfCell;
-        }
-        return 99;
+        if(isInTheGrid(new Position(position.row(), position.column())))
+            return grid[position.row()][position.column()];
+        return 0;
     }
 
     public int findNumberOfAliveNeighbours(Position position) {
@@ -81,21 +91,21 @@ public class Grid {
     }
 
     public int[][] nextGeneration() {
+
         int[][] nextGeneration = new int[ROWS_GRID][COLUMNS_GRID];
         for (int i = 0; i < ROWS_GRID; i++)
             for (int j = 0; j < COLUMNS_GRID; j++) {
                 int numberOfNeighbours = findNumberOfAliveNeighbours(new Position(i, j));
-                if ((grid[i][j] == CELL_IS_ALIVE) && (numberOfNeighbours < 2)) {
-                    nextGeneration[i][j] = CELL_IS_DEAD;
-                } else if ((grid[i][j] == CELL_IS_ALIVE) && (numberOfNeighbours > 3)) {
-                    nextGeneration[i][j] = CELL_IS_DEAD;
-                } else if ((grid[i][j] == CELL_IS_ALIVE) && (numberOfNeighbours == 2 || numberOfNeighbours == 3)) {
-                    nextGeneration[i][j] = CELL_IS_ALIVE;
-                }
-                if ((grid[i][j] == CELL_IS_DEAD) && (numberOfNeighbours == 3)) {
-                    nextGeneration[i][j] = CELL_IS_ALIVE;
-                }
 
+                if ((grid[i][j] == CELL_IS_ALIVE) && (numberOfNeighbours < 2) || (grid[i][j] == CELL_IS_ALIVE) && (numberOfNeighbours > 3))
+                    nextGeneration[i][j] = CELL_IS_DEAD;
+
+                else if ((grid[i][j] == CELL_IS_ALIVE) && (numberOfNeighbours == 2 || numberOfNeighbours == 3))
+                    nextGeneration[i][j] = CELL_IS_ALIVE;
+
+                else if ((grid[i][j] == CELL_IS_DEAD) && (numberOfNeighbours == 3)) {
+                    nextGeneration[i][j] = CELL_IS_ALIVE;
+                }
             }
         return nextGeneration;
     }

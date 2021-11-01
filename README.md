@@ -12,15 +12,15 @@ implemented in many ways. Put the code under version control using git and make 
 
 commits while you are working. Don’t be afraid of refactoring your code.
 
-You start with a two dimensional grid of cells, where each cell is either alive or
+You start with a two dimensional board of cells, where each cell is either alive or
 
-dead. In this version of the problem, the grid is finite, and no life can exist off the
+dead. In this version of the problem, the board is finite, and no life can exist off the
 
 edges. 
 
 
 
-When calculating the next generation of the grid, follow these rules:
+When calculating the next generation of the board, follow these rules:
 
 
 
@@ -42,8 +42,8 @@ generation.
 
 
 
-You should write a program that can accept an arbitrary grid of cells, and will
+You should write a program that can accept an arbitrary board of cells, and will
 
-output a similar grid showing the next generation.
+output a similar board showing the next generation.
 
 Try to work with immutable objects and pure functions as much as possible

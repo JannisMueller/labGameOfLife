@@ -1,4 +1,5 @@
 package se.mueller;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.stream.IntStream;
 
@@ -6,34 +7,37 @@ public class GameOfLife {
 
     public static void main(String[] args) {
 
+
+
         final Scanner scanner = new Scanner(System.in);
         boolean inputSessionIsFinished;
 
-        Grid grid = new Grid();
-        grid.printGrid();
+        Board board = new Board();
+        board.printGrid();
 
         UserInput input = inputStream(scanner);
-        grid.changeCellStatusToAlive(new Position(input.getIndexOfRow(), input.getIndexOfColumn()));
+        board.changeCellStatusToAlive(new Position(input.getIndexOfRow(), input.getIndexOfColumn()));
         inputSessionIsFinished = isInputSessionFinished(scanner, true);
 
         while (inputSessionIsFinished) {
             input = inputStream(scanner);
-            grid.changeCellStatusToAlive(new Position(input.getIndexOfRow(), input.getIndexOfColumn()));
+            board.changeCellStatusToAlive(new Position(input.getIndexOfRow(), input.getIndexOfColumn()));
             inputSessionIsFinished = isInputSessionFinished(scanner, true);
         }
 
         System.out.println(("How many generations do you want to see?"));
         int numberOfGenerationsToBeGenerated = scanner.nextInt();
 
-        generationBuilder(numberOfGenerationsToBeGenerated, grid);
+        generationBuilder(numberOfGenerationsToBeGenerated, board);
 
     }
 
-    private static void generationBuilder(int numberOfGenerationsToBeGenerated, Grid grid) {
-        grid.printGrid();
+
+    private static void generationBuilder(int numberOfGenerationsToBeGenerated, Board board) {
+        board.printGrid();
         IntStream.range(0, numberOfGenerationsToBeGenerated).forEach(i -> {
             System.out.println(("--Generation " + (i + 1) + "--"));
-            Grid nextGeneration = new Grid (grid.nextGeneration());
+            Board nextGeneration = new Board(board.nextGeneration());
             nextGeneration.printGrid();
         });
     }
@@ -54,6 +58,10 @@ public class GameOfLife {
         int inputIndexOfColumnFromUser = scanner.nextInt();
         return new UserInput(inputIndexOfRowFromUser,inputIndexOfColumnFromUser);
     }
+
+
+
+
 }
 
 
