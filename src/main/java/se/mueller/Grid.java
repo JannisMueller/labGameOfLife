@@ -20,7 +20,7 @@ public class Grid {
     }
 
     public int[][] initializeGridWithDeadCellsOnly() {
-            return new int [ROWS_GRID][COLUMNS_GRID];
+        return new int[ROWS_GRID][COLUMNS_GRID];
     }
 
 
@@ -28,14 +28,19 @@ public class Grid {
         return grid;
     }
 
-    public int sum(){
-         int sum = Arrays.stream(grid)
-                 .flatMapToInt(Arrays::stream)
-                 .sum();
-         return sum;
+    public int sum() {
+        return Arrays.stream(grid)
+                .flatMapToInt(Arrays::stream)
+                .sum();
     }
 
-    public List<int[]>findAllIndexOfCellsThatAreAlive() {
+    public int sumNext() {
+        return Arrays.stream(nextGeneration())
+                .flatMapToInt(Arrays::stream)
+                .sum();
+    }
+
+    public List<int[]> findAllIndexOfCellsThatAreAlive() {
         List<int[]> listOfIndex = new ArrayList<>();
         for (int i = 0; i < ROWS_GRID; i++)
             for (int j = 0; j < COLUMNS_GRID; j++) {
@@ -46,8 +51,18 @@ public class Grid {
         return listOfIndex;
     }
 
-    public void printArray(){
-        for(int[] rows : grid){
+    public void printArray() {
+        for (int[] rows : grid) {
+            for (int row : rows) {
+                System.out.print(row);
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
+    public void printArrayNext() {
+        for (int[] rows : nextGeneration()) {
             for (int row : rows) {
                 System.out.print(row);
             }
@@ -59,65 +74,68 @@ public class Grid {
     public void changeCellStatusToAlive(int row, int column) {
         grid[row][column] = CELL_IS_ALIVE;
     }
+
     public void changeCellStatusToDead(int row, int column) {
         grid[row][column] = CELL_IS_DEAD;
     }
 
     public List<Integer> findNeighbours(int row, int column) {
 
-        int overCell = row -1;
+        int overCell = row - 1;
         int underCell = row + 1;
 
-        int leftFromCell = column -1;
-        int rightFromCell = column +1;
+        int leftFromCell = column - 1;
+        int rightFromCell = column + 1;
 
         return Arrays.asList(
-                getPositionOfCell(overCell,column),
-                getPositionOfCell(overCell,leftFromCell),
-                getPositionOfCell(overCell,rightFromCell),
+                getPositionOfCell(overCell, column),
+                getPositionOfCell(overCell, leftFromCell),
+                getPositionOfCell(overCell, rightFromCell),
 
-                getPositionOfCell(underCell,column),
-                getPositionOfCell(underCell,leftFromCell),
-                getPositionOfCell(underCell,rightFromCell),
+                getPositionOfCell(underCell, column),
+                getPositionOfCell(underCell, leftFromCell),
+                getPositionOfCell(underCell, rightFromCell),
 
-                getPositionOfCell(row,leftFromCell),
-                getPositionOfCell(row,rightFromCell)
+                getPositionOfCell(row, leftFromCell),
+                getPositionOfCell(row, rightFromCell)
         );
 
     }
 
-    private int getPositionOfCell(int index, int index1) {
-        int position  = grid[index][index1];
-        return position;
+    private int getPositionOfCell(int row, int column) {
+        if(isInTheGrid(row, column)) {
+            int position = grid[row][column];
+            return position;
+        }
+        return 99;
     }
 
     public int findNumberOfAliveNeighbours(int row, int column) {
-        return (int) findNeighbours(row,column).stream().filter(x -> x == 1).count();
+        return (int) findNeighbours(row, column).stream().filter(x -> x == 1).count();
     }
 
-    public int[][] nextGeneration () {
+    public int[][] nextGeneration() {
         int[][] nextGeneration = new int[ROWS_GRID][COLUMNS_GRID];
-        for (int i = 1; i < ROWS_GRID - 1; i++)
-            for (int j = 1; j < COLUMNS_GRID - 1; j++) {
-                if (grid[i][j] == 1) {
-                    if (findNumberOfAliveNeighbours(i, j) == 0 || findNumberOfAliveNeighbours(i, j) > 3)
-                        changeCellStatusToDead(i, j);
-                    nextGeneration[i][j] = grid[i][j];
-
-                } else {
-                    if (findNumberOfAliveNeighbours(i, j) == 3) {
-                        changeCellStatusToAlive(i, j);
-                        i++;j++;
-                    }
+        for (int i = 0; i < ROWS_GRID; i++)
+            for (int j = 0; j < COLUMNS_GRID; j++) {
+                int numberOfNeighbours = findNumberOfAliveNeighbours(i, j);
+                if ((grid[i][j] == CELL_IS_ALIVE) && (numberOfNeighbours < 2)) {
+                    nextGeneration[i][j] = CELL_IS_DEAD;
+                } else if ((grid[i][j] == CELL_IS_ALIVE) && (numberOfNeighbours > 3)) {
+                    nextGeneration[i][j] = CELL_IS_DEAD;
+                } else if ((grid[i][j] == CELL_IS_ALIVE) && (numberOfNeighbours == 2 || numberOfNeighbours == 3)) {
+                    nextGeneration[i][j] = CELL_IS_ALIVE;
                 }
-
-
+                if ((grid[i][j] == CELL_IS_DEAD) && (numberOfNeighbours == 3)) {
+                    nextGeneration[i][j] = CELL_IS_ALIVE;
+                }
 
             }
         return nextGeneration;
-
     }
 
-}
-
+        private boolean isInTheGrid ( int row, int column){
+            return row >= 0 && column >= 0 && row < ROWS_GRID && column < COLUMNS_GRID;
+        }
+    }
 

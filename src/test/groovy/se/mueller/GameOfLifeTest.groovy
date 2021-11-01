@@ -5,8 +5,6 @@ import spock.lang.Specification
 class GameOfLifeTest extends Specification {
 
 
-
-
     def "Test if grid is initialized and has the expected length"() {
         when:
         Grid grid = new Grid()
@@ -64,6 +62,20 @@ class GameOfLifeTest extends Specification {
         then:
         grid.findNeighbours(5,5).size() == 8
     }
+    def "Identifying all possible neighbors at edge of an activated cells"() {
+        when:
+        Grid grid = new Grid()
+        grid.changeCellStatusToAlive(0,3)
+
+        grid.changeCellStatusToAlive(0,2)
+        grid.changeCellStatusToAlive(0,4)
+        grid.changeCellStatusToAlive(1,2)
+        grid.changeCellStatusToAlive(1,3)
+        grid.changeCellStatusToAlive(1,4)
+
+        then:
+        grid.findNumberOfAliveNeighbours(0,3)== 5
+    }
 
 
     private void setCellsAlive(Grid grid,int amountOfCellsToSetAlive) {
@@ -84,6 +96,8 @@ class GameOfLifeTest extends Specification {
         grid.findNumberOfAliveNeighbours(1,1) == 1
     }
 
+
+
     def "Live cell that doesnt have neighbors gets killed"() {
         when:
         Grid grid = new Grid()
@@ -91,7 +105,7 @@ class GameOfLifeTest extends Specification {
         grid.nextGeneration();
 
         then:
-        grid.sum() == 0
+        grid.sumNext() == 0
 
     }
 
@@ -105,10 +119,10 @@ class GameOfLifeTest extends Specification {
         grid.changeCellStatusToAlive(0,2)
         grid.changeCellStatusToAlive(0,1)
         grid.printArray()
-        grid.nextGeneration();
-        grid.printArray()
+        grid.nextGeneration()
+        grid.printArrayNext()
         then:
-        grid.sum() == 4
+        grid.sumNext() == 4
 
     }
 
@@ -119,12 +133,12 @@ class GameOfLifeTest extends Specification {
         grid.changeCellStatusToAlive(0,3)
         grid.changeCellStatusToAlive(0,2)
         grid.changeCellStatusToAlive(0,1)
-        grid.printArray()
-        grid.nextGeneration();
-        grid.printArray()
 
+        grid.printArray()
+        grid.nextGeneration()
+        grid.printArrayNext()
         then:
-        grid.sum() == 4
+        grid.sumNext() == 4
 
     }
 
@@ -132,17 +146,15 @@ class GameOfLifeTest extends Specification {
         when:
         Grid grid = new Grid()
         grid.changeCellStatusToAlive(1,2)
-        grid.changeCellStatusToAlive(0,3)
-        grid.changeCellStatusToAlive(0,2)
-        grid.changeCellStatusToAlive(0,1)
-
+        grid.changeCellStatusToAlive(1,3)
+        grid.changeCellStatusToAlive(1,4)
 
         grid.printArray()
         grid.nextGeneration()
-        grid.printArray()
+        grid.printArrayNext()
 
         then:
-        grid.sum() == 5
+        grid.sumNext() == 2
 
     }
 
