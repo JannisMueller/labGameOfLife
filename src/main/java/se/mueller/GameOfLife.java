@@ -4,16 +4,14 @@ import java.util.Scanner;
 public class GameOfLife {
 
     public static void main(String[] args) {
-
         final Scanner scanner = new Scanner(System.in);
         menuGameOfLife(scanner);
-
     }
 
     private static void menuGameOfLife(Scanner scanner) {
-        String settingGenerationOne = getUserInputForGameSettings(scanner);
+        String gameSettings = getUserInputForGameSettings(scanner);
 
-        switch (settingGenerationOne){
+        switch (gameSettings){
             case ("1"):
                 caseOne(scanner);
                 break;
@@ -34,8 +32,8 @@ public class GameOfLife {
 
     private static void caseOne(Scanner scanner) {
         Board board = new Board();
-        board.printGrid();
         getUserInput(scanner, board);
+        board.printGrid();
         generationBuilder(board).printGrid();
     }
 
@@ -47,12 +45,12 @@ public class GameOfLife {
     private static void getUserInput(Scanner scanner, Board board) {
         boolean inputSessionIsFinished;
         UserInput input = inputStream(scanner);
-        board.changeCellStatusToAlive(new Position(input.getIndexOfRow(), input.getIndexOfColumn()));
+        board.changeCellStatusToAlive(new Position(input.indexOfRow(), input.indexOfColumn()));
         inputSessionIsFinished = isInputSessionFinished(scanner, true);
 
         while (inputSessionIsFinished) {
             input = inputStream(scanner);
-            board.changeCellStatusToAlive(new Position(input.getIndexOfRow(), input.getIndexOfColumn()));
+            board.changeCellStatusToAlive(new Position(input.indexOfRow(), input.indexOfColumn()));
             inputSessionIsFinished = isInputSessionFinished(scanner, true);
         }
     }
@@ -63,7 +61,7 @@ public class GameOfLife {
     }
 
     private static Board generationBuilder(Board board) {
-        return new Board(board.nextGeneration());
+        return new Board(board.getNextGeneration());
     }
 
     private static boolean isInputSessionFinished(Scanner scanner, boolean inputSessionIsFinished) {

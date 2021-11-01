@@ -1,21 +1,12 @@
 package se.mueller;
 
-class UserInput {
+record UserInput(int indexOfRow, int indexOfColumn) {
 
-    private int indexOfRow;
-    private int indexOfColumn;
-
-
-    public UserInput(int indexOfRow, int indexOfColumn) {
-        this.indexOfRow = indexOfRow;
-        this.indexOfColumn = indexOfColumn;
-    }
-
-    public int getIndexOfRow() {
+    public int indexOfRow() {
         return indexOfRow;
     }
 
-    public int getIndexOfColumn() {
+    public int indexOfColumn() {
         return indexOfColumn;
     }
 }

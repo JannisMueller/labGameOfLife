@@ -79,7 +79,7 @@ class GameOfLifeTest extends Specification {
     private void setCellsAlive(Board grid, int amountOfCellsToSetAlive) {
         for (int i = 0; i < amountOfCellsToSetAlive; i++) {
             UserInput userInput = new UserInput(i, i)
-            grid.changeCellStatusToAlive(new Position(userInput.getIndexOfRow(), userInput.getIndexOfColumn()))
+            grid.changeCellStatusToAlive(new Position(userInput.indexOfRow(), userInput.indexOfColumn()))
         }
     }
 
@@ -101,7 +101,7 @@ class GameOfLifeTest extends Specification {
         Board grid = new Board()
         grid.changeCellStatusToAlive(new Position(1, 1))
         grid.printGrid()
-        Board nextGeneration = grid.nextGeneration()
+        Board nextGeneration = grid.getNextGeneration()
         nextGeneration.printGrid()
         then:
         nextGeneration.findNumberOfAliveNeighbours(new Position(1, 2)) == 0
@@ -119,7 +119,7 @@ class GameOfLifeTest extends Specification {
         grid.changeCellStatusToAlive(new Position(0, 1))
 
         grid.printGrid()
-        Board nextGeneration = grid.nextGeneration()
+        Board nextGeneration = grid.getNextGeneration()
         nextGeneration.printGrid()
         then:
         nextGeneration.findNumberOfAliveNeighbours(new Position(1, 1)) == 1
@@ -135,7 +135,7 @@ class GameOfLifeTest extends Specification {
         grid.changeCellStatusToAlive(new Position(0, 2))
         grid.changeCellStatusToAlive(new Position(0, 1))
         grid.printGrid()
-        Board nextGeneration = grid.nextGeneration()
+        Board nextGeneration = grid.getNextGeneration()
         nextGeneration.printGrid()
         then:
         nextGeneration.findNumberOfAliveNeighbours(new Position(1, 2)) == 1
@@ -152,7 +152,7 @@ class GameOfLifeTest extends Specification {
         grid.changeCellStatusToAlive(new Position(1, 4))
 
         grid.printGrid()
-        Board nextGeneration = grid.nextGeneration()
+        Board nextGeneration = grid.getNextGeneration()
         nextGeneration.printGrid()
         then:
         nextGeneration.findNumberOfAliveNeighbours(new Position(3, 3)) == 1

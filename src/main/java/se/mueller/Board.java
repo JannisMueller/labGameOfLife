@@ -29,7 +29,6 @@ public class Board {
         return new int[ROWS_GRID][COLUMNS_GRID];
     }
 
-
     public void initializeGridRandom(){
         for (int row = 0; row < grid.length; row++) {
             for (int col = 0; col < grid[row].length; col++) {
@@ -91,23 +90,17 @@ public class Board {
         return (int) findNeighbours(new Position(position.row(), position.column())).stream().filter(x -> x == CELL_IS_ALIVE).count();
     }
 
-    public int[][] nextGeneration() {
+    public int[][] getNextGeneration() {
 
         int[][] nextGeneration = new int[ROWS_GRID][COLUMNS_GRID];
         for (int i = 0; i < ROWS_GRID; i++)
             for (int j = 0; j < COLUMNS_GRID; j++) {
                 int numberOfNeighbours = findNumberOfAliveNeighbours(new Position(i, j));
-
-                if (grid[i][j] == CELL_IS_ALIVE && numberOfNeighbours < 2)
+                if (grid[i][j] == CELL_IS_ALIVE && numberOfNeighbours < 2 || grid[i][j] == CELL_IS_ALIVE && numberOfNeighbours > 3)
                     nextGeneration[i][j] = CELL_IS_DEAD;
-
-                else if (grid[i][j] == CELL_IS_ALIVE && numberOfNeighbours > 3)
-                    nextGeneration[i][j] = CELL_IS_DEAD;
-
-                else if ((grid[i][j] == CELL_IS_ALIVE) && (numberOfNeighbours == 2 || numberOfNeighbours == 3))
+                if ((grid[i][j] == CELL_IS_ALIVE) && (numberOfNeighbours == 2 || numberOfNeighbours == 3))
                     nextGeneration[i][j] = CELL_IS_ALIVE;
-
-                else if ((grid[i][j] == CELL_IS_DEAD) && (numberOfNeighbours == 3)) {
+                if ((grid[i][j] == CELL_IS_DEAD) && (numberOfNeighbours == 3)) {
                     nextGeneration[i][j] = CELL_IS_ALIVE;
                 }
             }
