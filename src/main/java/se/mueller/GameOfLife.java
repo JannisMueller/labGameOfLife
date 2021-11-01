@@ -33,8 +33,8 @@ public class GameOfLife {
         grid.printArray();
         IntStream.range(0, numberOfGenerationsToBeGenerated).forEach(i -> {
             System.out.println(("--Generation " + (i + 1) + "--"));
-            grid.nextGeneration();
-            grid.printArrayNext();
+            Grid nextGeneration = new Grid (grid.nextGeneration());
+            nextGeneration.printArray();
         });
     }
 

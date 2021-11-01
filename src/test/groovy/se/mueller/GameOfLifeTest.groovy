@@ -25,7 +25,7 @@ class GameOfLifeTest extends Specification {
         when:
         Grid grid = new Grid()
         then:
-        grid.sum()== 0;
+        findAllIndexOfCellsThatAreAlive(grid).size() == 0
     }
 
     def "User input sets cells correctly to alive in Grid"(){
@@ -33,7 +33,7 @@ class GameOfLifeTest extends Specification {
         Grid grid = new Grid()
         grid.changeCellStatusToAlive(activatedCells)
         then:
-        grid.findAllIndexOfCellsThatAreAlive() == expectedIndexAfterActivation
+        findAllIndexOfCellsThatAreAlive(grid) == expectedIndexAfterActivation
         where:
         activatedCells || expectedIndexAfterActivation
         [1,1]          || [[1,1]]
@@ -45,9 +45,9 @@ class GameOfLifeTest extends Specification {
         when:
         Grid grid = new Grid()
         setCellsAlive(grid, 3)
-        def listOfIndex = grid.findAllIndexOfCellsThatAreAlive()
+        def listOfIndex = findAllIndexOfCellsThatAreAlive(grid)
         then:
-        grid.sum() == 3
+
         listOfIndex.size() == 3
         listOfIndex == [[0, 0], [1, 1], [2, 2]]
 
@@ -107,7 +107,7 @@ class GameOfLifeTest extends Specification {
         nextGeneration.printArray()
         then:
         nextGeneration.findNumberOfAliveNeighbours(1,2) == 0
-        nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 0
+        findAllIndexOfCellsThatAreAlive(nextGeneration).size() == 0
 
     }
 
@@ -126,7 +126,7 @@ class GameOfLifeTest extends Specification {
         then:
         nextGeneration.findNumberOfAliveNeighbours(1,1) == 1
         nextGeneration.findNumberOfAliveNeighbours(0,1) == 1
-        nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 4
+        findAllIndexOfCellsThatAreAlive(nextGeneration).size() == 4
 
     }
 
@@ -142,7 +142,7 @@ class GameOfLifeTest extends Specification {
         nextGeneration.printArray()
         then:
         nextGeneration.findNumberOfAliveNeighbours(1,2) == 1
-        nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 2
+        findAllIndexOfCellsThatAreAlive(nextGeneration).size() == 2
 
 
     }
@@ -160,9 +160,20 @@ class GameOfLifeTest extends Specification {
         then:
         nextGeneration.findNumberOfAliveNeighbours(3,3) == 1
         nextGeneration.findNumberOfAliveNeighbours(0,3) == 1
-        nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 3
+        findAllIndexOfCellsThatAreAlive(nextGeneration).size() == 3
 
 
+    }
+
+    static List<int[]> findAllIndexOfCellsThatAreAlive(Grid grid) {
+        List<int[]> listOfIndex = new ArrayList<>();
+        for (int i = 0; i < 10; i++)
+            for (int j = 0; j < 10; j++) {
+                if (grid[i][j] == 1) {
+                    listOfIndex.add(new int[]{i, j});
+                }
+            }
+        return listOfIndex;
     }
 
 

@@ -32,41 +32,8 @@ public class Grid {
         return grid;
     }
 
-    public int sum() {
-        return Arrays.stream(grid)
-                .flatMapToInt(Arrays::stream)
-                .sum();
-    }
-
-    public int sumNext() {
-        return Arrays.stream(nextGeneration())
-                .flatMapToInt(Arrays::stream)
-                .sum();
-    }
-
-    public List<int[]> findAllIndexOfCellsThatAreAlive() {
-        List<int[]> listOfIndex = new ArrayList<>();
-        for (int i = 0; i < ROWS_GRID; i++)
-            for (int j = 0; j < COLUMNS_GRID; j++) {
-                if (grid[i][j] == 1) {
-                    listOfIndex.add(new int[]{i, j});
-                }
-            }
-        return listOfIndex;
-    }
-
     public void printArray() {
         for (int[] rows : grid) {
-            for (int row : rows) {
-                System.out.print(row);
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
-    public void printArrayNext() {
-        for (int[] rows : nextGeneration()) {
             for (int row : rows) {
                 System.out.print(row);
             }
@@ -79,9 +46,6 @@ public class Grid {
         grid[row][column] = CELL_IS_ALIVE;
     }
 
-    public void changeCellStatusToDead(int row, int column) {
-        grid[row][column] = CELL_IS_DEAD;
-    }
 
     public List<Integer> findNeighbours(int row, int column) {
 
