@@ -10,7 +10,7 @@ public class GameOfLife {
         boolean inputSessionIsFinished;
 
         Grid grid = new Grid();
-        grid.printArray();
+        grid.printGrid();
 
         UserInput input = inputStream(scanner);
         grid.changeCellStatusToAlive(new Position(input.getIndexOfRow(), input.getIndexOfColumn()));
@@ -30,11 +30,11 @@ public class GameOfLife {
     }
 
     private static void generationBuilder(int numberOfGenerationsToBeGenerated, Grid grid) {
-        grid.printArray();
+        grid.printGrid();
         IntStream.range(0, numberOfGenerationsToBeGenerated).forEach(i -> {
             System.out.println(("--Generation " + (i + 1) + "--"));
             Grid nextGeneration = new Grid (grid.nextGeneration());
-            nextGeneration.printArray();
+            nextGeneration.printGrid();
         });
     }
 

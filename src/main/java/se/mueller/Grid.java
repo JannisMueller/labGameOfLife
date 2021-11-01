@@ -27,12 +27,11 @@ public class Grid {
         return new int[ROWS_GRID][COLUMNS_GRID];
     }
 
-
     public int[][] getGrid() {
         return grid;
     }
 
-    public void printArray() {
+    public void printGrid() {
         for (int[] rows : grid) {
             for (int row : rows) {
                 System.out.print(row);
@@ -45,7 +44,6 @@ public class Grid {
     public void changeCellStatusToAlive(Position position) {
         grid[position.row()][position.column()] = CELL_IS_ALIVE;
     }
-
 
     public List<Integer> findNeighbours(Position position) {
 
@@ -102,7 +100,7 @@ public class Grid {
         return nextGeneration;
     }
 
-        private boolean isInTheGrid(Position position){
+    private boolean isInTheGrid(Position position){
             return position.row() >= 0 && position.column() >= 0 && position.row() < ROWS_GRID && position.column() < COLUMNS_GRID;
         }
 
