@@ -1,6 +1,4 @@
 package se.mueller;
-import java.io.InputStream;
-import java.util.Scanner;
 
 class UserInput {
 

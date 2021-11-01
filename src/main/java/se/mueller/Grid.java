@@ -42,51 +42,51 @@ public class Grid {
         System.out.println();
     }
 
-    public void changeCellStatusToAlive(int row, int column) {
-        grid[row][column] = CELL_IS_ALIVE;
+    public void changeCellStatusToAlive(Position position) {
+        grid[position.row()][position.column()] = CELL_IS_ALIVE;
     }
 
 
-    public List<Integer> findNeighbours(int row, int column) {
+    public List<Integer> findNeighbours(Position position) {
 
-        int overCell = row - 1;
-        int underCell = row + 1;
+        int overCell = position.row() - 1;
+        int underCell = position.row() + 1;
 
-        int leftFromCell = column - 1;
-        int rightFromCell = column + 1;
+        int leftFromCell = position.column() - 1;
+        int rightFromCell = position.column() + 1;
 
         return Arrays.asList(
-                getPositionOfCell(overCell, column),
-                getPositionOfCell(overCell, leftFromCell),
-                getPositionOfCell(overCell, rightFromCell),
+                getPositionOfCell(new Position(overCell, position.column())),
+                getPositionOfCell(new Position(overCell, leftFromCell)),
+                getPositionOfCell(new Position(overCell, rightFromCell)),
 
-                getPositionOfCell(underCell, column),
-                getPositionOfCell(underCell, leftFromCell),
-                getPositionOfCell(underCell, rightFromCell),
+                getPositionOfCell(new Position(underCell, position.column())),
+                getPositionOfCell(new Position(underCell, leftFromCell)),
+                getPositionOfCell(new Position(underCell, rightFromCell)),
 
-                getPositionOfCell(row, leftFromCell),
-                getPositionOfCell(row, rightFromCell)
+                getPositionOfCell(new Position(position.row(), leftFromCell)),
+                getPositionOfCell(new Position(position.row(), rightFromCell))
         );
 
     }
 
-    private int getPositionOfCell(int row, int column) {
-        if(isInTheGrid(row, column)) {
-            int position = grid[row][column];
-            return position;
+    private int getPositionOfCell(Position position) {
+        if(isInTheGrid(new Position(position.row(), position.column()))) {
+            int positionOfCell = grid[position.row()][position.column()];
+            return positionOfCell;
         }
         return 99;
     }
 
-    public int findNumberOfAliveNeighbours(int row, int column) {
-        return (int) findNeighbours(row, column).stream().filter(x -> x == 1).count();
+    public int findNumberOfAliveNeighbours(Position position) {
+        return (int) findNeighbours(new Position(position.row(), position.column())).stream().filter(x -> x == CELL_IS_ALIVE).count();
     }
 
     public int[][] nextGeneration() {
         int[][] nextGeneration = new int[ROWS_GRID][COLUMNS_GRID];
         for (int i = 0; i < ROWS_GRID; i++)
             for (int j = 0; j < COLUMNS_GRID; j++) {
-                int numberOfNeighbours = findNumberOfAliveNeighbours(i, j);
+                int numberOfNeighbours = findNumberOfAliveNeighbours(new Position(i, j));
                 if ((grid[i][j] == CELL_IS_ALIVE) && (numberOfNeighbours < 2)) {
                     nextGeneration[i][j] = CELL_IS_DEAD;
                 } else if ((grid[i][j] == CELL_IS_ALIVE) && (numberOfNeighbours > 3)) {
@@ -102,8 +102,19 @@ public class Grid {
         return nextGeneration;
     }
 
-        private boolean isInTheGrid ( int row, int column){
-            return row >= 0 && column >= 0 && row < ROWS_GRID && column < COLUMNS_GRID;
+        private boolean isInTheGrid(Position position){
+            return position.row() >= 0 && position.column() >= 0 && position.row() < ROWS_GRID && position.column() < COLUMNS_GRID;
         }
+
+   public List<int[]> findAllIndexOfCellsThatAreAlive() {
+        List<int[]> listOfIndex = new ArrayList<>();
+        for (int i = 0; i < 10; i++)
+            for (int j = 0; j < 10; j++) {
+                if (grid[i][j] == 1) {
+                    listOfIndex.add(new int[]{i, j});
+                }
+            }
+        return listOfIndex;
+    }
     }
 

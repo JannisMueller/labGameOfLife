@@ -25,7 +25,7 @@ class GameOfLifeTest extends Specification {
         when:
         Grid grid = new Grid()
         then:
-        findAllIndexOfCellsThatAreAlive(grid).size() == 0
+        grid.findAllIndexOfCellsThatAreAlive().size() == 0
     }
 
     def "User input sets cells correctly to alive in Grid"(){
@@ -33,19 +33,19 @@ class GameOfLifeTest extends Specification {
         Grid grid = new Grid()
         grid.changeCellStatusToAlive(activatedCells)
         then:
-        findAllIndexOfCellsThatAreAlive(grid) == expectedIndexAfterActivation
+        grid.findAllIndexOfCellsThatAreAlive() == expectedIndexAfterActivation
         where:
-        activatedCells || expectedIndexAfterActivation
-        [1,1]          || [[1,1]]
-        [2,5]          || [[2,5]]
-        [9,9]          || [[9,9]]
+        activatedCells      || expectedIndexAfterActivation
+        new Position(1,1)   || [[1,1]]
+        new Position(2,5)   || [[2,5]]
+        new Position(9,9)   || [[9,9]]
     }
 
     def "Test to ensure that all activated cells are correctly identified"() {
         when:
         Grid grid = new Grid()
         setCellsAlive(grid, 3)
-        def listOfIndex = findAllIndexOfCellsThatAreAlive(grid)
+        def listOfIndex = grid.findAllIndexOfCellsThatAreAlive()
         then:
 
         listOfIndex.size() == 3
@@ -58,30 +58,30 @@ class GameOfLifeTest extends Specification {
     def "Identifying all possible neighbors of an activated cells"() {
         when:
         Grid grid = new Grid()
-        grid.changeCellStatusToAlive(1,1)
+        grid.changeCellStatusToAlive(new se.mueller.Position(1, 1))
         then:
-        grid.findNeighbours(5,5).size() == 8
+        grid.findNeighbours(new se.mueller.Position(5, 5)).size() == 8
     }
     def "Identifying all possible neighbors at edge of an activated cells"() {
         when:
         Grid grid = new Grid()
-        grid.changeCellStatusToAlive(0,3)
+        grid.changeCellStatusToAlive(new se.mueller.Position(0, 3))
 
-        grid.changeCellStatusToAlive(0,2)
-        grid.changeCellStatusToAlive(0,4)
-        grid.changeCellStatusToAlive(1,2)
-        grid.changeCellStatusToAlive(1,3)
-        grid.changeCellStatusToAlive(1,4)
+        grid.changeCellStatusToAlive(new se.mueller.Position(0, 2))
+        grid.changeCellStatusToAlive(new se.mueller.Position(0, 4))
+        grid.changeCellStatusToAlive(new se.mueller.Position(1, 2))
+        grid.changeCellStatusToAlive(new se.mueller.Position(1, 3))
+        grid.changeCellStatusToAlive(new se.mueller.Position(1, 4))
 
         then:
-        grid.findNumberOfAliveNeighbours(0,3)== 5
+        grid.findNumberOfAliveNeighbours(new se.mueller.Position(0, 3))== 5
     }
 
 
     private void setCellsAlive(Grid grid,int amountOfCellsToSetAlive) {
         for (int i = 0; i < amountOfCellsToSetAlive; i++) {
             UserInput userInput = new UserInput(i, i)
-            grid.changeCellStatusToAlive(userInput.getIndexOfRow(), userInput.getIndexOfColumn())
+            grid.changeCellStatusToAlive(new se.mueller.Position(userInput.getIndexOfRow(), userInput.getIndexOfColumn()))
         }
     }
 
@@ -89,11 +89,11 @@ class GameOfLifeTest extends Specification {
 
         when:
         Grid grid = new Grid()
-        grid.changeCellStatusToAlive(1,1)
-        grid.changeCellStatusToAlive(1,2)
+        grid.changeCellStatusToAlive(new se.mueller.Position(1, 1))
+        grid.changeCellStatusToAlive(new se.mueller.Position(1, 2))
 
         then:
-        grid.findNumberOfAliveNeighbours(1,1) == 1
+        grid.findNumberOfAliveNeighbours(new se.mueller.Position(1, 1)) == 1
     }
 
 
@@ -101,32 +101,32 @@ class GameOfLifeTest extends Specification {
     def "Live cell that doesnt have neighbors gets killed"() {
         when:
         Grid grid = new Grid()
-        grid.changeCellStatusToAlive(1,1)
+        grid.changeCellStatusToAlive(new se.mueller.Position(1, 1))
         grid.printArray()
         Grid nextGeneration = grid.nextGeneration()
         nextGeneration.printArray()
         then:
-        nextGeneration.findNumberOfAliveNeighbours(1,2) == 0
-        findAllIndexOfCellsThatAreAlive(nextGeneration).size() == 0
+        nextGeneration.findNumberOfAliveNeighbours(new se.mueller.Position(1, 2)) == 0
+        nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 0
 
     }
 
     def "Live cell that have more than 3 neighbors gets killed"() {
         when:
         Grid grid = new Grid().initializeGridWithDeadCellsOnly()
-        grid.changeCellStatusToAlive(1,1)
-        grid.changeCellStatusToAlive(1,2)
-        grid.changeCellStatusToAlive(0,3)
-        grid.changeCellStatusToAlive(0,2)
-        grid.changeCellStatusToAlive(0,1)
+        grid.changeCellStatusToAlive(new se.mueller.Position(1, 1))
+        grid.changeCellStatusToAlive(new se.mueller.Position(1, 2))
+        grid.changeCellStatusToAlive(new se.mueller.Position(0, 3))
+        grid.changeCellStatusToAlive(new se.mueller.Position(0, 2))
+        grid.changeCellStatusToAlive(new se.mueller.Position(0, 1))
 
         grid.printArray()
         Grid nextGeneration = grid.nextGeneration()
         nextGeneration.printArray()
         then:
-        nextGeneration.findNumberOfAliveNeighbours(1,1) == 1
-        nextGeneration.findNumberOfAliveNeighbours(0,1) == 1
-        findAllIndexOfCellsThatAreAlive(nextGeneration).size() == 4
+        nextGeneration.findNumberOfAliveNeighbours(new se.mueller.Position(1, 1)) == 1
+        nextGeneration.findNumberOfAliveNeighbours(new se.mueller.Position(0, 1)) == 1
+        nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 4
 
     }
 
@@ -134,15 +134,15 @@ class GameOfLifeTest extends Specification {
         when:
         Grid grid = new Grid()
         //Neighbors
-        grid.changeCellStatusToAlive(0,3)
-        grid.changeCellStatusToAlive(0,2)
-        grid.changeCellStatusToAlive(0,1)
+        grid.changeCellStatusToAlive(new se.mueller.Position(0, 3))
+        grid.changeCellStatusToAlive(new se.mueller.Position(0, 2))
+        grid.changeCellStatusToAlive(new se.mueller.Position(0, 1))
         grid.printArray()
         Grid nextGeneration = grid.nextGeneration()
         nextGeneration.printArray()
         then:
-        nextGeneration.findNumberOfAliveNeighbours(1,2) == 1
-        findAllIndexOfCellsThatAreAlive(nextGeneration).size() == 2
+        nextGeneration.findNumberOfAliveNeighbours(new se.mueller.Position(1, 2)) == 1
+        nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 2
 
 
     }
@@ -150,30 +150,19 @@ class GameOfLifeTest extends Specification {
     def "Any live cell with two or three live neighbors lives on to the next generation"() {
         when:
         Grid grid = new Grid()
-        grid.changeCellStatusToAlive(1,2)
-        grid.changeCellStatusToAlive(1,3)
-        grid.changeCellStatusToAlive(1,4)
+        grid.changeCellStatusToAlive(new se.mueller.Position(1, 2))
+        grid.changeCellStatusToAlive(new se.mueller.Position(1, 3))
+        grid.changeCellStatusToAlive(new se.mueller.Position(1, 4))
 
         grid.printArray()
         Grid nextGeneration = grid.nextGeneration()
         nextGeneration.printArray()
         then:
-        nextGeneration.findNumberOfAliveNeighbours(3,3) == 1
-        nextGeneration.findNumberOfAliveNeighbours(0,3) == 1
-        findAllIndexOfCellsThatAreAlive(nextGeneration).size() == 3
+        nextGeneration.findNumberOfAliveNeighbours(new se.mueller.Position(3, 3)) == 1
+        nextGeneration.findNumberOfAliveNeighbours(new se.mueller.Position(0, 3)) == 1
+        nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 3
 
 
-    }
-
-    static List<int[]> findAllIndexOfCellsThatAreAlive(Grid grid) {
-        List<int[]> listOfIndex = new ArrayList<>();
-        for (int i = 0; i < 10; i++)
-            for (int j = 0; j < 10; j++) {
-                if (grid[i][j] == 1) {
-                    listOfIndex.add(new int[]{i, j});
-                }
-            }
-        return listOfIndex;
     }
 
 

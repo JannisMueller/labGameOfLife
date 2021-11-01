@@ -13,12 +13,12 @@ public class GameOfLife {
         grid.printArray();
 
         UserInput input = inputStream(scanner);
-        grid.changeCellStatusToAlive(input.getIndexOfRow(), input.getIndexOfColumn());
+        grid.changeCellStatusToAlive(new Position(input.getIndexOfRow(), input.getIndexOfColumn()));
         inputSessionIsFinished = isInputSessionFinished(scanner, true);
 
         while (inputSessionIsFinished) {
             input = inputStream(scanner);
-            grid.changeCellStatusToAlive(input.getIndexOfRow(), input.getIndexOfColumn());
+            grid.changeCellStatusToAlive(new Position(input.getIndexOfRow(), input.getIndexOfColumn()));
             inputSessionIsFinished = isInputSessionFinished(scanner, true);
         }
 
