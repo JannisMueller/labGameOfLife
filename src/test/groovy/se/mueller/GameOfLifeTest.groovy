@@ -98,10 +98,10 @@ class GameOfLifeTest extends Specification {
         when:
         Board grid = new Board()
         grid.changeCellStatusToAlive(new Position(1, 1))
-        grid.printGrid()
         Board nextGeneration = grid.getNextGeneration()
         nextGeneration.printGrid()
         then:
+        nextGeneration.getPositionOfCell(new Position(1, 1)) == 0
         nextGeneration.findNumberOfAliveNeighbours(new Position(1, 2)) == 0
         nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 0
     }
@@ -115,10 +115,12 @@ class GameOfLifeTest extends Specification {
         grid.changeCellStatusToAlive(new Position(0, 2))
         grid.changeCellStatusToAlive(new Position(0, 1))
 
-        grid.printGrid()
         Board nextGeneration = grid.getNextGeneration()
-        nextGeneration.printGrid()
+
         then:
+        nextGeneration.getPositionOfCell(new Position(1, 2)) == 0
+        nextGeneration.getPositionOfCell(new Position(0, 2)) == 0
+
         nextGeneration.findNumberOfAliveNeighbours(new Position(1, 1)) == 1
         nextGeneration.findNumberOfAliveNeighbours(new Position(0, 1)) == 1
         nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 4
@@ -130,10 +132,11 @@ class GameOfLifeTest extends Specification {
         grid.changeCellStatusToAlive(new Position(0, 3))
         grid.changeCellStatusToAlive(new Position(0, 2))
         grid.changeCellStatusToAlive(new Position(0, 1))
-        grid.printGrid()
+
         Board nextGeneration = grid.getNextGeneration()
-        nextGeneration.printGrid()
         then:
+        nextGeneration.getPositionOfCell(new Position(1, 2)) == 1
+
         nextGeneration.findNumberOfAliveNeighbours(new Position(1, 2)) == 1
         nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 2
     }
@@ -141,17 +144,25 @@ class GameOfLifeTest extends Specification {
     def "Any live cell with two or three live neighbors lives on to the next generation"() {
         when:
         Board grid = new Board()
+
         grid.changeCellStatusToAlive(new Position(1, 2))
         grid.changeCellStatusToAlive(new Position(1, 3))
         grid.changeCellStatusToAlive(new Position(1, 4))
+        grid.changeCellStatusToAlive(new Position(1, 6))
 
-        grid.printGrid()
+        grid.changeCellStatusToAlive(new Position(2, 5))
+        grid.changeCellStatusToAlive(new Position(2, 6))
+        grid.changeCellStatusToAlive(new Position(2, 7))
+
         Board nextGeneration = grid.getNextGeneration()
-        nextGeneration.printGrid()
         then:
-        nextGeneration.findNumberOfAliveNeighbours(new Position(3, 3)) == 1
-        nextGeneration.findNumberOfAliveNeighbours(new Position(0, 3)) == 1
-        nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 3
+        nextGeneration.getPositionOfCell(new Position(1, 3)) == 1
+        nextGeneration.getPositionOfCell(new Position(1, 6)) == 1
+        nextGeneration.getPositionOfCell(new Position(2, 6)) == 1
+
+        nextGeneration.findNumberOfAliveNeighbours(new Position(3, 3)) == 2
+        nextGeneration.findNumberOfAliveNeighbours(new Position(0, 3)) == 2
+        nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 11
     }
 
     def "Board initializes randomly"() {

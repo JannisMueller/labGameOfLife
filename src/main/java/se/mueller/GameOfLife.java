@@ -44,13 +44,8 @@ public class GameOfLife {
         for (int i = 0; i < numberOfGenerations; i++) {
             randomBoard.insertNewGeneration(randomBoard.getNextGeneration());
             randomBoard.printGrid();
-            printOutBorder();
+            System.out.println("__________");
         }
-    }
-
-    private static void printOutBorder() {
-        System.out.println(("__________"));
-        System.out.println(("__________"));
     }
 
     private static String getUserInputForGameSettings(Scanner scanner) {

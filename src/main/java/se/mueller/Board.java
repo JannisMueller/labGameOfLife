@@ -82,7 +82,7 @@ public class Board {
 
     }
 
-    private int getPositionOfCell(Position position) {
+    public int getPositionOfCell(Position position) {
         if(isInTheGrid(new Position(position.row(), position.column())))
             return grid[position.row()][position.column()];
         return 0;
@@ -120,7 +120,7 @@ public class Board {
             return position.row() >= 0 && position.column() >= 0 && position.row() < ROWS_GRID && position.column() < COLUMNS_GRID;
         }
 
-   public List<int[]> findAllIndexOfCellsThatAreAlive() {
+    public List<int[]> findAllIndexOfCellsThatAreAlive() {
         List<int[]> listOfIndex = new ArrayList<>();
         for (int indexRow = 0; indexRow < ROWS_GRID; indexRow++)
             for (int indexColumn = 0; indexColumn < COLUMNS_GRID; indexColumn++) {
