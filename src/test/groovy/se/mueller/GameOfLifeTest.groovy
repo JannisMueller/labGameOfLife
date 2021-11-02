@@ -8,6 +8,7 @@ class GameOfLifeTest extends Specification {
     def "Test if grid is initialized and has the expected length"() {
         when:
         Board grid = new Board()
+
         then:
         grid.getGrid().length == 10
     }
@@ -15,6 +16,7 @@ class GameOfLifeTest extends Specification {
     def "Test if cells (dead or alive) have the right value based on their status"() {
         expect:
         statusOfCell == expectedIntegerValueOFCell
+
         where:
         statusOfCell| expectedIntegerValueOFCell
         Board.CELL_IS_ALIVE || 1
@@ -24,6 +26,7 @@ class GameOfLifeTest extends Specification {
     def "The first grid is just filled with Dead cells (with value 0 before some cells are set to Life by the user"() {
         when:
         Board grid = new Board()
+
         then:
         grid.findAllIndexOfCellsThatAreAlive().size() == 0
     }
@@ -32,8 +35,10 @@ class GameOfLifeTest extends Specification {
         when:
         Board grid = new Board()
         grid.changeCellStatusToAlive(activatedCells)
+
         then:
         grid.findAllIndexOfCellsThatAreAlive() == expectedIndexAfterActivation
+
         where:
         activatedCells      || expectedIndexAfterActivation
         new Position(1,1)   || [[1,1]]
@@ -46,8 +51,8 @@ class GameOfLifeTest extends Specification {
         Board grid = new Board()
         setCellsAlive(grid, 3)
         def listOfIndex = grid.findAllIndexOfCellsThatAreAlive()
-        then:
 
+        then:
         listOfIndex.size() == 3
         listOfIndex == [[0, 0], [1, 1], [2, 2]]
     }
@@ -56,14 +61,15 @@ class GameOfLifeTest extends Specification {
         when:
         Board grid = new Board()
         grid.changeCellStatusToAlive(new Position(1, 1))
+
         then:
         grid.findNeighbours(new Position(5, 5)).size() == 8
     }
     def "Identifying all possible neighbors at edge of an activated cells"() {
         when:
         Board grid = new Board()
-        grid.changeCellStatusToAlive(new Position(0, 3))
 
+        grid.changeCellStatusToAlive(new Position(0, 3))
         grid.changeCellStatusToAlive(new Position(0, 2))
         grid.changeCellStatusToAlive(new Position(0, 4))
         grid.changeCellStatusToAlive(new Position(1, 2))
@@ -74,13 +80,6 @@ class GameOfLifeTest extends Specification {
         grid.findNumberOfAliveNeighbours(new Position(0, 3))== 5
     }
 
-
-    private void setCellsAlive(Board grid, int amountOfCellsToSetAlive) {
-        for (int i = 0; i < amountOfCellsToSetAlive; i++) {
-            UserInput userInput = new UserInput(i, i)
-            grid.changeCellStatusToAlive(new Position(userInput.indexOfRow(), userInput.indexOfColumn()))
-        }
-    }
 
     def "All alive neighbours are identified correctly"() {
         when:
@@ -99,7 +98,7 @@ class GameOfLifeTest extends Specification {
         Board grid = new Board()
         grid.changeCellStatusToAlive(new Position(1, 1))
         Board nextGeneration = grid.getNextGeneration()
-        nextGeneration.printGrid()
+
         then:
         nextGeneration.getPositionOfCell(new Position(1, 1)) == 0
         nextGeneration.findNumberOfAliveNeighbours(new Position(1, 2)) == 0
@@ -118,9 +117,9 @@ class GameOfLifeTest extends Specification {
         Board nextGeneration = grid.getNextGeneration()
 
         then:
+
         nextGeneration.getPositionOfCell(new Position(1, 2)) == 0
         nextGeneration.getPositionOfCell(new Position(0, 2)) == 0
-
         nextGeneration.findNumberOfAliveNeighbours(new Position(1, 1)) == 1
         nextGeneration.findNumberOfAliveNeighbours(new Position(0, 1)) == 1
         nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 4
@@ -134,9 +133,9 @@ class GameOfLifeTest extends Specification {
         grid.changeCellStatusToAlive(new Position(0, 1))
 
         Board nextGeneration = grid.getNextGeneration()
+
         then:
         nextGeneration.getPositionOfCell(new Position(1, 2)) == 1
-
         nextGeneration.findNumberOfAliveNeighbours(new Position(1, 2)) == 1
         nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 2
     }
@@ -144,7 +143,6 @@ class GameOfLifeTest extends Specification {
     def "Any live cell with two or three live neighbors lives on to the next generation"() {
         when:
         Board grid = new Board()
-
         grid.changeCellStatusToAlive(new Position(1, 2))
         grid.changeCellStatusToAlive(new Position(1, 3))
         grid.changeCellStatusToAlive(new Position(1, 4))
@@ -155,11 +153,11 @@ class GameOfLifeTest extends Specification {
         grid.changeCellStatusToAlive(new Position(2, 7))
 
         Board nextGeneration = grid.getNextGeneration()
+
         then:
         nextGeneration.getPositionOfCell(new Position(1, 3)) == 1
         nextGeneration.getPositionOfCell(new Position(1, 6)) == 1
         nextGeneration.getPositionOfCell(new Position(2, 6)) == 1
-
         nextGeneration.findNumberOfAliveNeighbours(new Position(3, 3)) == 2
         nextGeneration.findNumberOfAliveNeighbours(new Position(0, 3)) == 2
         nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 11
@@ -170,6 +168,7 @@ class GameOfLifeTest extends Specification {
         Board grid = new Board()
         grid.initializeGridRandom()
         grid.printGrid()
+
         then:
         grid.findAllIndexOfCellsThatAreAlive().size() > 0
     }
@@ -178,7 +177,15 @@ class GameOfLifeTest extends Specification {
         when:
         Board grid = new Board()
         grid.initializeGridRandom()
+
         then:
         grid != grid.insertNewGeneration(grid.getNextGeneration())
+    }
+
+    private void setCellsAlive(Board grid, int amountOfCellsToSetAlive) {
+        for (int i = 0; i < amountOfCellsToSetAlive; i++) {
+            UserInput userInput = new UserInput(i, i)
+            grid.changeCellStatusToAlive(new Position(userInput.indexOfRow(), userInput.indexOfColumn()))
+        }
     }
 }
