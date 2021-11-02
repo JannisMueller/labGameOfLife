@@ -27,14 +27,23 @@ public class GameOfLife {
         Board randomBoard = new Board();
         randomBoard.initializeGridRandom();
         randomBoard.printGrid();
+        printOutBorder();
         generationBuilder(randomBoard).printGrid();
+        printOutBorder();
+    }
+
+    private static void printOutBorder() {
+        System.out.println(("__________"));
+        System.out.println(("__________"));
     }
 
     private static void caseOne(Scanner scanner) {
         Board board = new Board();
         getUserInput(scanner, board);
         board.printGrid();
+        printOutBorder();
         generationBuilder(board).printGrid();
+        printOutBorder();
     }
 
     private static String getUserInputForGameSettings(Scanner scanner) {

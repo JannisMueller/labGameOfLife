@@ -44,13 +44,15 @@ public class Board {
     }
 
     public void printGrid() {
-        for (int[] rows : grid) {
-            for (int row : rows) {
-                System.out.print(row);
+        for (int i = 0; i < ROWS_GRID; i++) {
+            for (int j = 0; j < COLUMNS_GRID; j++) {
+                if (grid[i][j] == 0)
+                    System.out.print(".");
+                else
+                    System.out.print("*");
             }
             System.out.println();
         }
-        System.out.println();
     }
 
     public void changeCellStatusToAlive(Position position) {
