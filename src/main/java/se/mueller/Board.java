@@ -93,18 +93,18 @@ public class Board {
     }
 
     public int[][] getNextGeneration() {
-
         int[][] nextGeneration = new int[ROWS_GRID][COLUMNS_GRID];
+
         for (int i = 0; i < ROWS_GRID; i++)
             for (int j = 0; j < COLUMNS_GRID; j++) {
                 int numberOfNeighbours = findNumberOfAliveNeighbours(new Position(i, j));
-                if (grid[i][j] == CELL_IS_ALIVE && numberOfNeighbours < 2 || grid[i][j] == CELL_IS_ALIVE && numberOfNeighbours > 3)
+                int positionInCurrentGeneration = grid[i][j];
+
+                if (positionInCurrentGeneration == CELL_IS_ALIVE && numberOfNeighbours < 2 || numberOfNeighbours > 3)
                     nextGeneration[i][j] = CELL_IS_DEAD;
-                if ((grid[i][j] == CELL_IS_ALIVE) && (numberOfNeighbours == 2 || numberOfNeighbours == 3))
-                    nextGeneration[i][j] = CELL_IS_ALIVE;
-                if ((grid[i][j] == CELL_IS_DEAD) && (numberOfNeighbours == 3)) {
-                    nextGeneration[i][j] = CELL_IS_ALIVE;
-                }
+
+                if ((positionInCurrentGeneration == CELL_IS_DEAD) && (numberOfNeighbours == 3) || (positionInCurrentGeneration == CELL_IS_ALIVE) && (numberOfNeighbours == 2 || numberOfNeighbours == 3)) {
+                    nextGeneration[i][j] = CELL_IS_ALIVE;}
             }
         return nextGeneration;
     }
