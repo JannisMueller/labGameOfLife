@@ -53,7 +53,7 @@ public class GameOfLife {
 
     private static void getUserInput(Scanner scanner, Board board) {
         boolean inputSessionIsFinished;
-        userInputForStartPositions input = inputStream(scanner);
+        UserInput input = inputStream(scanner);
         board.changeCellStatusToAlive(new Position(input.indexOfRow(), input.indexOfColumn()));
         inputSessionIsFinished = isInputSessionFinished(scanner, true);
 
@@ -77,13 +77,13 @@ public class GameOfLife {
         return inputSessionIsFinished;
     }
 
-    public static userInputForStartPositions inputStream(Scanner scanner) {
+    public static UserInput inputStream(Scanner scanner) {
         System.out.println("Choose the cells that are alive?");
         System.out.print(("Row: "));
         int inputIndexOfRowFromUser = scanner.nextInt();
         System.out.print(("Column: "));
         int inputIndexOfColumnFromUser = scanner.nextInt();
-        return new userInputForStartPositions(inputIndexOfRowFromUser,inputIndexOfColumnFromUser);
+        return new UserInput(inputIndexOfRowFromUser,inputIndexOfColumnFromUser);
     }
 
 }

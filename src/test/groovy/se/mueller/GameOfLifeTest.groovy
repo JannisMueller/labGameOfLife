@@ -184,7 +184,7 @@ class GameOfLifeTest extends Specification {
 
     private void setCellsAlive(Board grid, int amountOfCellsToSetAlive) {
         for (int i = 0; i < amountOfCellsToSetAlive; i++) {
-            userInputForStartPositions userInput = new userInputForStartPositions(i, i)
+            UserInput userInput = new UserInput(i, i)
             grid.changeCellStatusToAlive(new Position(userInput.indexOfRow(), userInput.indexOfColumn()))
         }
     }
