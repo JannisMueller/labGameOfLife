@@ -50,7 +50,6 @@ class GameOfLifeTest extends Specification {
 
         listOfIndex.size() == 3
         listOfIndex == [[0, 0], [1, 1], [2, 2]]
-
     }
 
     def "Identifying all possible neighbors of an activated cells"() {
@@ -84,7 +83,6 @@ class GameOfLifeTest extends Specification {
     }
 
     def "All alive neighbours are identified correctly"() {
-
         when:
         Board grid = new Board()
         grid.changeCellStatusToAlive(new Position(1, 1))
@@ -106,7 +104,6 @@ class GameOfLifeTest extends Specification {
         then:
         nextGeneration.findNumberOfAliveNeighbours(new Position(1, 2)) == 0
         nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 0
-
     }
 
     def "Live cell that have more than 3 neighbors gets killed"() {
@@ -125,7 +122,6 @@ class GameOfLifeTest extends Specification {
         nextGeneration.findNumberOfAliveNeighbours(new Position(1, 1)) == 1
         nextGeneration.findNumberOfAliveNeighbours(new Position(0, 1)) == 1
         nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 4
-
     }
 
     def "Dead cells that have exactly 3 neighbors gets born"() {
@@ -140,8 +136,6 @@ class GameOfLifeTest extends Specification {
         then:
         nextGeneration.findNumberOfAliveNeighbours(new Position(1, 2)) == 1
         nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 2
-
-
     }
 
     def "Any live cell with two or three live neighbors lives on to the next generation"() {
@@ -158,8 +152,6 @@ class GameOfLifeTest extends Specification {
         nextGeneration.findNumberOfAliveNeighbours(new Position(3, 3)) == 1
         nextGeneration.findNumberOfAliveNeighbours(new Position(0, 3)) == 1
         nextGeneration.findAllIndexOfCellsThatAreAlive().size() == 3
-
-
     }
 
     def "Board initializes randomly"() {
@@ -169,7 +161,6 @@ class GameOfLifeTest extends Specification {
         grid.printGrid()
         then:
         grid.findAllIndexOfCellsThatAreAlive().size() > 0
-
     }
 
     def "Next Generation will be calculated from previous generations"() {

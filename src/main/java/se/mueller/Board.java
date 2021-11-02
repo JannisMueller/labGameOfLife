@@ -30,10 +30,10 @@ public class Board {
     }
 
     public void initializeGridRandom(){
-        for (int row = 0; row < grid.length; row++) {
-            for (int col = 0; col < grid[row].length; col++) {
+        for (int indexRow = 0; indexRow < grid.length; indexRow++) {
+            for (int indexColumn = 0; indexColumn < grid[indexRow].length; indexColumn++) {
                 if (rand.nextInt(2) == 1) {
-                    grid[row][col] = CELL_IS_ALIVE;
+                    grid[indexRow][indexColumn] = CELL_IS_ALIVE;
                 }
             }
         }
@@ -44,9 +44,9 @@ public class Board {
     }
 
     public void printGrid() {
-        for (int i = 0; i < ROWS_GRID; i++) {
-            for (int j = 0; j < COLUMNS_GRID; j++) {
-                if (grid[i][j] == 0)
+        for (int indexRow = 0; indexRow < ROWS_GRID; indexRow++) {
+            for (int indexColumn = 0; indexColumn < COLUMNS_GRID; indexColumn++) {
+                if (grid[indexRow][indexColumn] == 0)
                     System.out.print(".");
                 else
                     System.out.print("*");
@@ -95,24 +95,24 @@ public class Board {
     public int[][] getNextGeneration() {
         int[][] nextGeneration = new int[ROWS_GRID][COLUMNS_GRID];
 
-        for (int i = 0; i < ROWS_GRID; i++)
-            for (int j = 0; j < COLUMNS_GRID; j++) {
-                int numberOfNeighbours = findNumberOfAliveNeighbours(new Position(i, j));
-                int positionInCurrentGeneration = grid[i][j];
+        for (int indexRow = 0; indexRow < ROWS_GRID; indexRow++)
+            for (int indexColumn = 0; indexColumn < COLUMNS_GRID; indexColumn++) {
+                int numberOfNeighbours = findNumberOfAliveNeighbours(new Position(indexRow, indexColumn));
+                int positionInCurrentGeneration = grid[indexRow][indexColumn];
 
                 if (positionInCurrentGeneration == CELL_IS_ALIVE && numberOfNeighbours < 2 || numberOfNeighbours > 3)
-                    nextGeneration[i][j] = CELL_IS_DEAD;
+                    nextGeneration[indexRow][indexColumn] = CELL_IS_DEAD;
 
                 if ((positionInCurrentGeneration == CELL_IS_DEAD) && (numberOfNeighbours == 3) || (positionInCurrentGeneration == CELL_IS_ALIVE) && (numberOfNeighbours == 2 || numberOfNeighbours == 3)) {
-                    nextGeneration[i][j] = CELL_IS_ALIVE;}
+                    nextGeneration[indexRow][indexColumn] = CELL_IS_ALIVE;}
             }
         return nextGeneration;
     }
 
     public void insertNewGeneration(int[][] nextGeneration){
-        for (int i = 0; i < ROWS_GRID; i++)
-            for (int j = 0; j < COLUMNS_GRID; j++) {
-                grid[i][j]= nextGeneration[i][j];
+        for (int indexRow = 0; indexRow < ROWS_GRID; indexRow++)
+            for (int indexColumn = 0; indexColumn < COLUMNS_GRID; indexColumn++) {
+                grid[indexRow][indexColumn]= nextGeneration[indexRow][indexColumn];
             }
     }
 
@@ -122,10 +122,10 @@ public class Board {
 
    public List<int[]> findAllIndexOfCellsThatAreAlive() {
         List<int[]> listOfIndex = new ArrayList<>();
-        for (int i = 0; i < 10; i++)
-            for (int j = 0; j < 10; j++) {
-                if (grid[i][j] == 1) {
-                    listOfIndex.add(new int[]{i, j});
+        for (int indexRow = 0; indexRow < ROWS_GRID; indexRow++)
+            for (int indexColumn = 0; indexColumn < COLUMNS_GRID; indexColumn++) {
+                if (grid[indexRow][indexColumn] == 1) {
+                    listOfIndex.add(new int[]{indexRow, indexColumn});
                 }
             }
         return listOfIndex;
