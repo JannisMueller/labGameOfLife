@@ -5,43 +5,41 @@ public class GameOfLife {
 
     public static void main(String[] args) {
         final Scanner scanner = new Scanner(System.in);
-        menuGameOfLife(scanner);
+
+        playGameOfLife(scanner);
     }
 
-    private static void menuGameOfLife(Scanner scanner) {
+    private static void playGameOfLife(Scanner scanner) {
         String gameSettings = getUserInputForGameSettings(scanner);
 
-        switch (gameSettings){
-            case ("1"):
-                caseOne(scanner);
-                break;
-            case ("2"):
-                caseTwo(scanner);
-                break;
-            default:
-                System.out.println(("Something went wrong..."));
+        switch (gameSettings) {
+            case ("1") -> userDecidesStartPosition(scanner);
+            case ("2") -> randomStartPositions(scanner);
+            default -> System.out.println(("Something went wrong..."));
         }
     }
 
-    private static void caseOne(Scanner scanner) {
+    private static void userDecidesStartPosition(Scanner scanner) {
         Board board = new Board();
         getUserInput(scanner, board);
+        getGame(scanner, board);
+
+    }
+
+    private static void randomStartPositions(Scanner scanner) {
+        Board randomBoard = new Board();
+        randomBoard.initializeGridRandom();
+        getGame(scanner, randomBoard);
+    }
+
+    private static void getGame(Scanner scanner, Board board) {
         board.printGrid();
         int numberOfGenerations = getNumberOfGenerationsToBeGenerated(scanner);
         generationsBuilder(board, numberOfGenerations);
-
-    }
-
-    private static void caseTwo(Scanner scanner) {
-        Board randomBoard = new Board();
-        randomBoard.initializeGridRandom();
-        randomBoard.printGrid();
-        int numberOfGenerations = getNumberOfGenerationsToBeGenerated(scanner);
-        generationsBuilder(randomBoard, numberOfGenerations);
     }
 
     private static void generationsBuilder(Board randomBoard, int numberOfGenerations) {
-        for (int i = 0; i < numberOfGenerations; i++) {
+        for (int generation = 0; generation < numberOfGenerations; generation++) {
             randomBoard.insertNewGeneration(randomBoard.getNextGeneration());
             randomBoard.printGrid();
             System.out.println("__________");
@@ -55,7 +53,7 @@ public class GameOfLife {
 
     private static void getUserInput(Scanner scanner, Board board) {
         boolean inputSessionIsFinished;
-        UserInput input = inputStream(scanner);
+        userInputForStartPositions input = inputStream(scanner);
         board.changeCellStatusToAlive(new Position(input.indexOfRow(), input.indexOfColumn()));
         inputSessionIsFinished = isInputSessionFinished(scanner, true);
 
@@ -79,13 +77,13 @@ public class GameOfLife {
         return inputSessionIsFinished;
     }
 
-    public static UserInput inputStream(Scanner scanner) {
+    public static userInputForStartPositions inputStream(Scanner scanner) {
         System.out.println("Choose the cells that are alive?");
         System.out.print(("Row: "));
         int inputIndexOfRowFromUser = scanner.nextInt();
         System.out.print(("Column: "));
         int inputIndexOfColumnFromUser = scanner.nextInt();
-        return new UserInput(inputIndexOfRowFromUser,inputIndexOfColumnFromUser);
+        return new userInputForStartPositions(inputIndexOfRowFromUser,inputIndexOfColumnFromUser);
     }
 
 }

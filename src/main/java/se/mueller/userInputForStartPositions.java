@@ -1,6 +1,6 @@
 package se.mueller;
 
-record UserInput(int indexOfRow, int indexOfColumn) {
+record userInputForStartPositions(int indexOfRow, int indexOfColumn) {
 
     public int indexOfRow() {
         return indexOfRow;
