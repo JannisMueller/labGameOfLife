@@ -109,6 +109,13 @@ public class Board {
         return nextGeneration;
     }
 
+    public void insertNewGeneration(int[][] nextGeneration){
+        for (int i = 0; i < ROWS_GRID; i++)
+            for (int j = 0; j < COLUMNS_GRID; j++) {
+                grid[i][j]= nextGeneration[i][j];
+            }
+    }
+
     private boolean isInTheGrid(Position position){
             return position.row() >= 0 && position.column() >= 0 && position.row() < ROWS_GRID && position.column() < COLUMNS_GRID;
         }
@@ -124,4 +131,3 @@ public class Board {
         return listOfIndex;
     }
     }
-

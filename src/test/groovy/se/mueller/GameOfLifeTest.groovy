@@ -171,4 +171,12 @@ class GameOfLifeTest extends Specification {
         grid.findAllIndexOfCellsThatAreAlive().size() > 0
 
     }
+
+    def "Next Generation will be calculated from previous generations"() {
+        when:
+        Board grid = new Board()
+        grid.initializeGridRandom()
+        then:
+        grid != grid.insertNewGeneration(grid.getNextGeneration())
+    }
 }

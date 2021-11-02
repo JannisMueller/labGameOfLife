@@ -16,34 +16,41 @@ public class GameOfLife {
                 caseOne(scanner);
                 break;
             case ("2"):
-                caseTwo();
+                caseTwo(scanner);
                 break;
             default:
                 System.out.println(("Something went wrong..."));
         }
     }
 
-    private static void caseTwo() {
+    private static void caseOne(Scanner scanner) {
+        Board board = new Board();
+        getUserInput(scanner, board);
+        board.printGrid();
+        int numberOfGenerations = getNumberOfGenerationsToBeGenerated(scanner);
+        generationsBuilder(board, numberOfGenerations);
+
+    }
+
+    private static void caseTwo(Scanner scanner) {
         Board randomBoard = new Board();
         randomBoard.initializeGridRandom();
         randomBoard.printGrid();
-        printOutBorder();
-        generationBuilder(randomBoard).printGrid();
-        printOutBorder();
+        int numberOfGenerations = getNumberOfGenerationsToBeGenerated(scanner);
+        generationsBuilder(randomBoard, numberOfGenerations);
+    }
+
+    private static void generationsBuilder(Board randomBoard, int numberOfGenerations) {
+        for (int i = 0; i < numberOfGenerations; i++) {
+            randomBoard.insertNewGeneration(randomBoard.getNextGeneration());
+            randomBoard.printGrid();
+            printOutBorder();
+        }
     }
 
     private static void printOutBorder() {
         System.out.println(("__________"));
         System.out.println(("__________"));
-    }
-
-    private static void caseOne(Scanner scanner) {
-        Board board = new Board();
-        getUserInput(scanner, board);
-        board.printGrid();
-        printOutBorder();
-        generationBuilder(board).printGrid();
-        printOutBorder();
     }
 
     private static String getUserInputForGameSettings(Scanner scanner) {
@@ -67,10 +74,6 @@ public class GameOfLife {
     private static int getNumberOfGenerationsToBeGenerated(Scanner scanner) {
         System.out.println(("How many generations do you want to see?"));
         return scanner.nextInt();
-    }
-
-    private static Board generationBuilder(Board board) {
-        return new Board(board.getNextGeneration());
     }
 
     private static boolean isInputSessionFinished(Scanner scanner, boolean inputSessionIsFinished) {
