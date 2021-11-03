@@ -3,12 +3,15 @@ import java.util.Scanner;
 
 public class GameOfLife {
 
+    private GameOfLife() {
+    }
+
     static void playGameOfLife(Scanner scanner) {
         String gameSettings = getUserInputForGameSettings(scanner);
 
         switch (gameSettings) {
-            case ("1") -> userDecidesStartPosition(scanner);
-            case ("2") -> randomStartPositions(scanner);
+            case ("1") -> randomStartPositions(scanner);
+            case ("2") -> userDecidesStartPosition(scanner);
             default -> System.out.println(("Something went wrong..."));
         }
     }
@@ -36,6 +39,11 @@ public class GameOfLife {
         for (int generation = 0; generation < numberOfGenerations; generation++) {
             randomBoard.insertNewGeneration(randomBoard.getNextGeneration());
             printGrid(randomBoard.getGrid());
+            try {
+                Thread.sleep(600);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             System.out.println("__________");
         }
     }
@@ -71,7 +79,7 @@ public class GameOfLife {
         return inputSessionIsFinished;
     }
 
-    public static UserInput inputStream(Scanner scanner) {
+    private static UserInput inputStream(Scanner scanner) {
         System.out.println("Choose the cells that are alive?");
         System.out.print(("Row: "));
         int inputIndexOfRowFromUser = scanner.nextInt();
@@ -80,7 +88,7 @@ public class GameOfLife {
         return new UserInput(inputIndexOfRowFromUser,inputIndexOfColumnFromUser);
     }
 
-    public static void printGrid(int[][] grid) {
+    private static void printGrid(int[][] grid) {
         for (int indexRow = 0; indexRow < Grid.ROWS_GRID; indexRow++) {
             for (int indexColumn = 0; indexColumn < Grid.COLUMNS_GRID; indexColumn++) {
                 if (grid[indexRow][indexColumn] == 0)
