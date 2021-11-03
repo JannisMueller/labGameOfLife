@@ -4,10 +4,6 @@ import spock.lang.Specification
 
 class GameOfLifeTest extends Specification {
 
-    static final int ROWS_GRID = 10;
-    static final int COLUMNS_GRID = 10;
-
-
     def "Test if grid is initialized and has the expected length"() {
         when:
         Grid grid = new Grid()
@@ -69,7 +65,7 @@ class GameOfLifeTest extends Specification {
         then:
         position.findNeighbours(new Position(5, 5)).size() == 8
     }
-    def "Identifying all possible neighbors at edge of an activated cells"() {
+    def "Identifying all possible neighbors at edge of grid of an activated cells"() {
         when:
         Grid grid = new Grid()
 
@@ -191,8 +187,8 @@ class GameOfLifeTest extends Specification {
 
     private List<int[]> findAllIndexOfCellsThatAreAlive(int [][] grid) {
         List<int[]> listOfIndex = new ArrayList<>();
-        for (int indexRow = 0; indexRow < ROWS_GRID; indexRow++)
-            for (int indexColumn = 0; indexColumn < COLUMNS_GRID; indexColumn++) {
+        for (int indexRow = 0; indexRow < Grid.ROWS_GRID; indexRow++)
+            for (int indexColumn = 0; indexColumn < Grid.COLUMNS_GRID; indexColumn++) {
                 if (grid[indexRow][indexColumn] == 1) {
                     listOfIndex.add(new int[]{indexRow, indexColumn});
                 }

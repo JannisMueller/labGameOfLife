@@ -4,16 +4,12 @@ package se.mueller;
 import java.util.Arrays;
 import java.util.List;
 
-import static se.mueller.Grid.COLUMNS_GRID;
-import static se.mueller.Grid.ROWS_GRID;
-
 record Position (int row, int column){
 
     public List<Position> findNeighbours(Position position) {
 
         int overCell = position.row() - 1;
         int underCell = position.row() + 1;
-
         int leftFromCell = position.column() - 1;
         int rightFromCell = position.column() + 1;
 

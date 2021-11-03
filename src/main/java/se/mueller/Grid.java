@@ -77,9 +77,7 @@ public class Grid {
 
     public void insertNewGeneration(int[][] nextGeneration){
         for (int indexRow = 0; indexRow < ROWS_GRID; indexRow++)
-            for (int indexColumn = 0; indexColumn < COLUMNS_GRID; indexColumn++) {
-                grid[indexRow][indexColumn]= nextGeneration[indexRow][indexColumn];
-            }
+            System.arraycopy(nextGeneration[indexRow], 0, grid[indexRow], 0, COLUMNS_GRID);
     }
 
     }
