@@ -3,13 +3,7 @@ import java.util.Scanner;
 
 public class GameOfLife {
 
-    public static void main(String[] args) {
-        final Scanner scanner = new Scanner(System.in);
-
-        playGameOfLife(scanner);
-    }
-
-    private static void playGameOfLife(Scanner scanner) {
+    static void playGameOfLife(Scanner scanner) {
         String gameSettings = getUserInputForGameSettings(scanner);
 
         switch (gameSettings) {
@@ -20,28 +14,28 @@ public class GameOfLife {
     }
 
     private static void userDecidesStartPosition(Scanner scanner) {
-        Board board = new Board();
+        Grid board = new Grid();
         getUserInput(scanner, board);
         getGame(scanner, board);
 
     }
 
     private static void randomStartPositions(Scanner scanner) {
-        Board randomBoard = new Board();
+        Grid randomBoard = new Grid();
         randomBoard.initializeGridRandom();
         getGame(scanner, randomBoard);
     }
 
-    private static void getGame(Scanner scanner, Board board) {
-        board.printGrid();
+    private static void getGame(Scanner scanner, Grid board) {
+        printGrid(board.getGrid());
         int numberOfGenerations = getNumberOfGenerationsToBeGenerated(scanner);
         generationsBuilder(board, numberOfGenerations);
     }
 
-    private static void generationsBuilder(Board randomBoard, int numberOfGenerations) {
+    private static void generationsBuilder(Grid randomBoard, int numberOfGenerations) {
         for (int generation = 0; generation < numberOfGenerations; generation++) {
             randomBoard.insertNewGeneration(randomBoard.getNextGeneration());
-            randomBoard.printGrid();
+            printGrid(randomBoard.getGrid());
             System.out.println("__________");
         }
     }
@@ -51,7 +45,7 @@ public class GameOfLife {
         return scanner.next();
     }
 
-    private static void getUserInput(Scanner scanner, Board board) {
+    private static void getUserInput(Scanner scanner, Grid board) {
         boolean inputSessionIsFinished;
         UserInput input = inputStream(scanner);
         board.changeCellStatusToAlive(new Position(input.indexOfRow(), input.indexOfColumn()));
@@ -84,6 +78,18 @@ public class GameOfLife {
         System.out.print(("Column: "));
         int inputIndexOfColumnFromUser = scanner.nextInt();
         return new UserInput(inputIndexOfRowFromUser,inputIndexOfColumnFromUser);
+    }
+
+    public static void printGrid(int[][] grid) {
+        for (int indexRow = 0; indexRow < Grid.ROWS_GRID; indexRow++) {
+            for (int indexColumn = 0; indexColumn < Grid.COLUMNS_GRID; indexColumn++) {
+                if (grid[indexRow][indexColumn] == 0)
+                    System.out.print(".");
+                else
+                    System.out.print("*");
+            }
+            System.out.println();
+        }
     }
 
 }
