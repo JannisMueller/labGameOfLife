@@ -95,7 +95,7 @@ class PlayGameOfLife {
         for (int indexRow = 0; indexRow < ROWS_GRID; indexRow++) {
             for (int indexColumn = 0; indexColumn < COLUMNS_GRID; indexColumn++) {
                 if (grid[indexRow][indexColumn] == 0)
-                    System.out.print(" ");
+                    System.out.print(".");
                 else
                     System.out.print("*");
             }
