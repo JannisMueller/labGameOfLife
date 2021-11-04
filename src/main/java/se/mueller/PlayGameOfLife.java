@@ -3,6 +3,9 @@ import java.util.Scanner;
 
 class PlayGameOfLife {
 
+    private static final int ROWS_GRID = 10;
+    private static final int COLUMNS_GRID = 10;
+
     private PlayGameOfLife() {
     }
 
@@ -89,10 +92,10 @@ class PlayGameOfLife {
     }
 
     private static void printGrid(int[][] grid) {
-        for (int indexRow = 0; indexRow < Grid.ROWS_GRID; indexRow++) {
-            for (int indexColumn = 0; indexColumn < Grid.COLUMNS_GRID; indexColumn++) {
+        for (int indexRow = 0; indexRow < ROWS_GRID; indexRow++) {
+            for (int indexColumn = 0; indexColumn < COLUMNS_GRID; indexColumn++) {
                 if (grid[indexRow][indexColumn] == 0)
-                    System.out.print(".");
+                    System.out.print(" ");
                 else
                     System.out.print("*");
             }

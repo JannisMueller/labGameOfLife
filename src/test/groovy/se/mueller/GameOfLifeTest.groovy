@@ -4,6 +4,9 @@ import spock.lang.Specification
 
 class GameOfLifeTest extends Specification {
 
+    private static final int CELL_IS_DEAD = 0;
+    private static final int CELL_IS_ALIVE = 1;
+
     def "Test if grid is initialized and has the expected length"() {
         when:
         Grid grid = new Grid()
@@ -22,7 +25,7 @@ class GameOfLifeTest extends Specification {
         Grid.CELL_IS_DEAD  || 0
 
     }
-    def "The first grid is just filled with Dead cells (with value 0 before some cells are set to Life by the user"() {
+    def "The first grid is just filled with Dead cells (with value 0) before some cells are set to Life by the user"() {
         when:
         Grid grid = new Grid()
 
@@ -97,8 +100,7 @@ class GameOfLifeTest extends Specification {
         Grid nextGeneration = grid.getNextGeneration()
 
         then:
-        nextGeneration.getPositionOfCell(new Position(1, 1)) == 0
-        nextGeneration.findNumberOfAliveNeighbours(new Position(1, 2)) == 0
+        nextGeneration.getPositionOfCell(new Position(1, 1)) == CELL_IS_DEAD
         findAllIndexOfCellsThatAreAlive(nextGeneration.getGrid()).size() == 0
     }
 
@@ -115,10 +117,9 @@ class GameOfLifeTest extends Specification {
 
         then:
 
-        nextGeneration.getPositionOfCell(new Position(1, 2)) == 0
-        nextGeneration.getPositionOfCell(new Position(0, 2)) == 0
-        nextGeneration.findNumberOfAliveNeighbours(new Position(1, 1)) == 1
-        nextGeneration.findNumberOfAliveNeighbours(new Position(0, 1)) == 1
+        nextGeneration.getPositionOfCell(new Position(1, 2)) == CELL_IS_DEAD
+        nextGeneration.getPositionOfCell(new Position(0, 2)) == CELL_IS_DEAD
+
         findAllIndexOfCellsThatAreAlive(nextGeneration.getGrid()).size() == 4
     }
 
@@ -132,8 +133,7 @@ class GameOfLifeTest extends Specification {
         Grid nextGeneration = grid.getNextGeneration()
 
         then:
-        nextGeneration.getPositionOfCell(new Position(1, 2)) == 1
-        nextGeneration.findNumberOfAliveNeighbours(new Position(1, 2)) == 1
+        nextGeneration.getPositionOfCell(new Position(1, 2)) == CELL_IS_ALIVE
         findAllIndexOfCellsThatAreAlive(nextGeneration.getGrid()).size() == 2
     }
 
@@ -152,15 +152,14 @@ class GameOfLifeTest extends Specification {
         Grid nextGeneration = grid.getNextGeneration()
 
         then:
-        nextGeneration.getPositionOfCell(new Position(1, 3)) == 1
-        nextGeneration.getPositionOfCell(new Position(1, 6)) == 1
-        nextGeneration.getPositionOfCell(new Position(2, 6)) == 1
-        nextGeneration.findNumberOfAliveNeighbours(new Position(3, 3)) == 2
-        nextGeneration.findNumberOfAliveNeighbours(new Position(0, 3)) == 2
+        nextGeneration.getPositionOfCell(new Position(1, 3)) == CELL_IS_ALIVE
+        nextGeneration.getPositionOfCell(new Position(1, 6)) == CELL_IS_ALIVE
+        nextGeneration.getPositionOfCell(new Position(2, 6)) == CELL_IS_ALIVE
+
         findAllIndexOfCellsThatAreAlive(nextGeneration.getGrid()).size() == 11
     }
 
-    def "Board initializes randomly"() {
+    def "Board initializes randomly resp. not all cells have the value 0"() {
         when:
         Grid grid = new Grid()
         grid.initializeGridRandom()
@@ -169,14 +168,6 @@ class GameOfLifeTest extends Specification {
         findAllIndexOfCellsThatAreAlive(grid.getGrid()).size() > 0
     }
 
-    def "Next Generation will be calculated from previous generations"() {
-        when:
-        Grid grid = new Grid()
-        grid.initializeGridRandom()
-
-        then:
-        grid != grid.insertNewGeneration(grid.getNextGeneration())
-    }
 
     private void setCellsAlive(Grid grid, int amountOfCellsToSetAlive) {
         for (int i = 0; i < amountOfCellsToSetAlive; i++) {

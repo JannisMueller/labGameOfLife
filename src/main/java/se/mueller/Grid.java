@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class Grid {
 
-    static final int ROWS_GRID = 10;
-    static final int COLUMNS_GRID = 10;
+    private static final int ROWS_GRID = 10;
+    private static final int COLUMNS_GRID = 10;
 
     private final int[][] grid;
 
